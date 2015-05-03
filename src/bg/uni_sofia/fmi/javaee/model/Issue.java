@@ -32,6 +32,10 @@ public class Issue implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date dueDate;
 	
+	@Temporal(TemporalType.DATE)
+	private Date creationDate;
+	
+	@ManyToOne
 	private IssueStatus status;
 	
 	@ManyToOne
@@ -40,9 +44,10 @@ public class Issue implements Serializable {
 	@ManyToOne
 	private User assignee;
 	
+	@ManyToOne
 	private User reporter;
 	
-	@OneToMany(mappedBy = "issue")
+	@OneToMany(mappedBy = "issue", cascade = CascadeType.PERSIST)
 	private List<Comment> comments;
 
 	public Long getId() {
@@ -75,6 +80,14 @@ public class Issue implements Serializable {
 
 	public void setDueDate(Date dueDate) {
 		this.dueDate = dueDate;
+	}
+	
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 
 	public IssueStatus getStatus() {

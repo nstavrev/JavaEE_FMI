@@ -369,8 +369,11 @@
 
         <div id="page-wrapper">
             <div class="row">
+            	<div class="col-lg-12">
+                    <h1 id="projectName" class="page-header"></h1>
+                </div>
                 <div class="col-lg-12">
-                    <h1 class="page-header">New Issue</h1>
+                    <h2 class="page-header">New Issue</h2>
                 </div>
             </div>
             <div class="row">
@@ -379,9 +382,9 @@
                         <div class="panel-heading">
                         </div>
                         <div class="panel-body">
+                        	
                             <div class="row">
                                 <div class="col-lg-12">
-                                        
                                         <div class="form-group">
                                             <label>Title</label>
                                             <input id="title" class="form-control" placeholder="Enter title">
@@ -397,6 +400,12 @@
                                         <div class="form-group">
                                         	<label>Assignee</label>
                                         	<input id="assignee" class="form-control" type="text"/>
+                                        </div>
+                                        <div class="form-group">
+                                        	<label>Status</label>
+                                        	<select id="statuses" class="form-control">
+                                        		
+                                        	</select>
                                         </div>
                                         <button type="button" onclick="createIssue()" class="btn btn-default">Save</button>
                                 </div>
@@ -424,23 +433,74 @@
 	
 	<script type="text/javascript">
 		var newIssue = {
-				issue : {}
+				issue : {
+					status : {}
+				}
 		};
 		
+		var statuses;
+		
+		$("#dueDate").datepicker()
+		
+		$.ajax({
+			url : "rest/project/id/<% out.print(request.getParameter("id")); %>",
+			type : "GET",
+			success : function(data){
+				newIssue.issue.project = data;
+				$("#projectName").html(data.name)
+			}
+		});
+		
+		$.ajax({
+			url : "rest/issue/statuses",
+			type : "GET",
+			success : function(data) {
+				statuses = data;
+				statuses.forEach(function(status){
+					$("#statuses").append($('<option>', {
+					    value: status.id,
+					    text: status.name
+					}));
+				});
+			}
+		});
+		
+		$.ajax({
+			url : "rest/user/all",
+			type : "GET",
+			success : function(data){
+				var arr = [];
+				data.user.forEach(function(user){
+					arr.push({ label : user.userName, value : user.userName, object : user});
+				});
+				console.log(arr);
+				$( "#assignee" ).autocomplete({
+					source: arr,
+					select : function(event, item) {
+						newIssue.issue.assignee = item.item.object;
+					}
+				}).data("ui-autocomplete")._renderItem = function(ul, item){
+			 		return $( "<li class='page-row'></li>" )
+		            .data( "item.autocomplete", item.label )
+		            .append( $( "<a></a>" )[ this.options.html ? "html" : "text" ]( item.label ) )
+		            .appendTo( ul );
+			 	}
+			}
+		});
+	
 		function createIssue() {
 			newIssue.issue.title = $("#title").val();
 			newIssue.issue.description = $("#description").val();
-			newIssue.issue.dueDate = $("#dueDate").val();
-			newIssue.issue.assignee =  {
-					userName : $("#assignee").val()
-			}
+			newIssue.issue.dueDate = new Date($("#dueDate").val());
+			newIssue.issue.status.id = $("#statuses").val();
+			console.log(newIssue);
 			$.ajax({
 				url : "rest/issue/new",
 				type : "POST",
 				contentType: "application/json;charset=UTF-8",
 				data : JSON.stringify(newIssue),
 				success : function(){
-					alert("ok");
+					window.location = "project.jsp?id=<% out.print(request.getParameter("id")); %>"
 				}
 			});
 		}

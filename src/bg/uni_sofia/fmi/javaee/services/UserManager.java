@@ -44,7 +44,7 @@ public class UserManager {
 			return Response.status(HttpURLConnection.HTTP_UNAUTHORIZED).build();
 		}
 		
-		context.setCurrentUser(user);
+		context.setCurrentUser(userDao.findUserByName(user.getUserName()));
 		
 		return Response.ok().build();
 	}

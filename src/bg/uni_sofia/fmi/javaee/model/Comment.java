@@ -26,9 +26,10 @@ public class Comment implements Serializable {
 	
 	private String content;
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date creationDate;
 	
+	@ManyToOne
 	private User creator;
 	
 	@ManyToOne

@@ -1,6 +1,7 @@
 package bg.uni_sofia.fmi.javaee.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -24,6 +25,9 @@ public class IssueStatus implements Serializable {
 	private Long id;
 	
 	private String name;
+	
+	@OneToMany(mappedBy = "status")
+	public List<Issue> issues;
 
 	public Long getId() {
 		return id;

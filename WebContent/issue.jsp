@@ -369,8 +369,11 @@
 
         <div id="page-wrapper">
             <div class="row">
+            	<div class="col-lg-12">
+                    <h1 id="projectName" class="page-header"></h1>
+                </div>
                 <div class="col-lg-12">
-                    <h1 class="page-header">New Project</h1>
+                    <h2 id="issueTitle" class="page-header"></h2>
                 </div>
             </div>
             <div class="row">
@@ -379,21 +382,60 @@
                         <div class="panel-heading">
                         </div>
                         <div class="panel-body">
+                        	
                             <div class="row">
                                 <div class="col-lg-12">
-                                        
                                         <div class="form-group">
-                                            <label>Project Name</label>
-                                            <input id="projectName" class="form-control" placeholder="Enter project name">
+                                            <label>Title</label>
+                                            <input id="title" class="form-control" placeholder="Enter title">
                                         </div>
                                         <div class="form-group">
-                                        	<input id="username" class="form-control" placeholder="Search member" />
+                                        	<label>Description</label>
+                                        	<textarea id="description" rows="10" class="form-control" placeholder="Enter Description"></textarea>
                                         </div>
-                                        
-                                        <div id="members">
+                                        <div class="form-group">
+                                        	<label>Due Date</label>
+                                        	<input id="dueDate" class="form-control" type="text" />
                                         </div>
-                                        <button type="button" onclick="createNewProject()" class="btn btn-default">Save</button>
+                                        <div class="form-group">
+                                        	<label>Assignee</label>
+                                        	<input id="assignee" class="form-control" type="text"/>
+                                        </div>
+                                        <div class="form-group">
+                                        	<label>Status</label>
+                                        	<select id="statuses" class="form-control">
+                                        		
+                                        	</select>
+                                        </div>
+                                        <button type="button" onclick="editIssue()" class="btn btn-default">Edit</button>
                                 </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                	<div id="alert" class="form-group">
+	                                	
+                                	</div>
+                                	<div class="form-group">
+                                		<h4>Add Comment</h4> 
+                                	</div>
+                                	<div class="form-group">
+										<textarea id="comment" rows="5" class="form-control" placeholder="Type your comment here"></textarea>
+                                	</div>
+                                	<div class="form-group"> 
+                                		<button onclick="addComment()" class="btn btn-primary pull-right">Save</button>
+                                	</div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                	<div class="form-group">
+                                		<h4>Comments</h4> 
+                                	</div>
+                                </div>
+                            </div>
+                            <div id="comments">
+	                            
                             </div>
                         </div>
                     </div>
@@ -417,69 +459,134 @@
     <script src="js/sb-admin-2.js"></script>
 	
 	<script type="text/javascript">
-	                 
-		var newProject = {
-				project : {
-					members : []	
+		var issue = {
+				issue : {
+					status : {}
 				}
-		}
+		};
 		
+		var statuses;
+		
+		$("#dueDate").datepicker()
+		
+		$.ajax({
+			url : "rest/issue/statuses",
+			type : "GET",
+			success : function(data) {
+				statuses = data;
+				statuses.forEach(function(status){
+					$("#statuses").append($('<option>', {
+					    value: status.id,
+					    text: status.name
+					}));
+				});
+			}
+		});
+		
+		function getComments() {
 			$.ajax({
-				url : "rest/user/all",
+				url : "rest/issue/comments/<% out.print(request.getParameter("id")); %>",
 				type : "GET",
-				success : function(data){
-					var arr = [];
-					data.user.forEach(function(user){
-						arr.push({ label : user.userName, value : user.username, object : user});
+				success : function(data) {
+					var html = "";
+					data.forEach(function(comment){
+						
+						html += '<div class="row"><div class="col-lg-12">';
+						html += '<div class="panel panel-default">';
+						html += '<div class="panel-body">';
+						html += '<p>' + comment.content  + '</p>';
+						html += '</div>';
+						html += '<div class="panel-footer">';
+						html += '<strong> Author </strong> ' + comment.creator.userName;
+						html += '<strong> Date </strong> ' + comment.creationDate;
+						html += '</div>';
+						html += '</div>';
+						html += '</div></div>';
+						/*
+							<div class="row">
+		                            	<div class="col-lg-12">
+		                            		<div class="panel panel-default">
+						                        <div class="panel-body">
+						                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+						                        </div>
+						                        <div class="panel-footer">
+						                            Panel Footer
+						                        </div>
+						                    </div>
+		                            	</div>
+		                            </div>
+						*/
 					});
-					
-					$( "#username" ).autocomplete({
-						source: arr,
-						select : function(event, item) {
-							newProject.project.members.push(item.item.object);
-							refreshMembers();
-						}
-					}).data("ui-autocomplete")._renderItem = function(ul, item){
-				 		
-				 		return $( "<li class='page-row'></li>" )
-			            .data( "item.autocomplete", item.label )
-			            .append( $( "<a></a>" )[ this.options.html ? "html" : "text" ]( item.label ) )
-			            .appendTo( ul );
-				 		
-				 	}
+					$("#comments").html(html);
 				}
-			});
-		
-		function addNewMember() {
-			console.log(newProject);
+			});	
 		}
 		
-		function refreshMembers() {
-			var members = newProject.project.members;
-			var html = "";
-			members.forEach(function(member, index){
-				html += "<div class='form-group'><label>" + member.userName + "</label> <button onclick='removeMember(" + index + ")' class='btn btn-danger'>Remove</button></div>";
-			});
-			$("#members").html(html);
-		}
+		getComments();
 		
-		function removeMember(index){
-			newProject.project.members.splice(index, 1);
-			refreshMembers();
-		}
+		$.ajax({
+			url : "rest/issue/id/<% out.print(request.getParameter("id")); %>",
+			type : "GET",
+			success : function(data){
+				issue.issue = data;
+				$("#projectName").html(data.project.name);
+				$("#issueTitle").html("Issue " + data.id);
+				$("#title").val(data.title);
+				$("#description").val(data.description);
+				$("#dueDate").val(data.dueDate);
+				$("#assignee").val(data.assignee.userName);
+				$("#statuses").val(data.status.id);
+			}
+		});
 		
-		function createNewProject() {
-			newProject.project.name = $("#projectName").val();
+		function addComment() {
+			var comment = {
+					comment : {
+						content : $("#comment").val()
+					}
+			}
 			$.ajax({
-				url : "rest/project/new",
+				url : "rest/issue/addComment/" + issue.issue.id,
 				type : "POST",
 				contentType: "application/json;charset=UTF-8",
-				data : JSON.stringify(newProject),
-				success : function(){
-					window.location="projects.html";
+				data : JSON.stringify(comment),
+				success : function(data) {
+					getComments();
+					var alertHTML = "";
+					alertHTML += '<div class="alert alert-success alert-dismissable">';
+					alertHTML += '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>';
+					alertHTML += 'Your comment was saved successfully';
+					alertHTML += '</div>';
+					/*
+						<div class="alert alert-success alert-dismissable">
+			                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+											Your comment was saved successfully
+		                            	</div>
+					*/
+					$("#alert").html(alertHTML);
+					$("#comment").val("");
 				}
 			});
 		}
+		
+		function editIssue() {
+			issue.issue.title = $("#title").val();
+			issue.issue.description = $("#description").val();
+			issue.issue.dueDate = new Date($("#dueDate").val());
+			issue.issue.status.id = $("#statuses").val();
+			
+			$.ajax({
+				url : "rest/issue/edit",
+				type : "POST",
+				contentType: "application/json;charset=UTF-8",
+				data : JSON.stringify(issue),
+				success : function(data){
+					console.log(data);
+				}
+			});
+		}
+		
+
 	</script>
 	
 </body>

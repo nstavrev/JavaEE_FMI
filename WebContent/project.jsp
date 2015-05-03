@@ -378,7 +378,7 @@
             <!-- /.row -->
             <div class="row">
 	            	<div class="col-lg-12">
-	                	<button class="btn btn-lg btn-primary pull-right">Create Issue</button>
+	                	<a href="newissue.jsp?id=<% out.print(request.getParameter("id")); %>" class="btn btn-lg btn-primary pull-right">Create Issue</a>
 	                </div>
             </div>
             <br/>
@@ -399,6 +399,7 @@
                                             <th>Reporter</th>
                                             <th>Due Date</th>
                                             <th>Status</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -440,7 +441,19 @@
     <script type="text/javascript">
 	    $(document).ready(function() {
 	        $('#dataTables-example').dataTable({
-	        	"ajax": 'rest/issue/all/<% out.print(request.getParameter("id")); %>'
+	        	"ajax": 'rest/issue/all/<% out.print(request.getParameter("id")); %>',
+	        	"aoColumns": [
+	        	              {"mData" : "title"},
+	        	              {"mData" : "assignee.userName"},
+	        	              {"mData" : "reporter.userName"},
+	        	              {"mData" : "dueDate"},
+	        	              {"mData" : "status.name"},
+	        	              { "mRender" : function(data, a, row) {
+	        	            	  console.log(row);
+	        	            		  return "<a href='issue.jsp?id=" + row.id + "' class='btn btn-default'>Review</a>";
+	        	              	} 
+	        	              }
+	        	        ]
 	        });
 	    });
 	    

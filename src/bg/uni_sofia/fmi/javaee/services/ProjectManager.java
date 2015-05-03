@@ -1,7 +1,6 @@
 package bg.uni_sofia.fmi.javaee.services;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -43,7 +42,7 @@ public class ProjectManager {
 	@Path("new")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createNewProject(Project newProject) {
-		System.out.println("name : " + newProject.getName());
+		System.out.println("CREATING");
 		projectDao.createProject(newProject);
 		return Response.ok().build();
 	}
@@ -53,16 +52,9 @@ public class ProjectManager {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addNewProjectMember(User member, @PathParam("projectId") Long projectId) {
 		
-		User userFromDB = userDao.findUserByName(member.getUserName());
+		projectDao.addMemberInProject(member, projectId);
 		
-		Project projectFromDB = projectDao.findProjectById(projectId);
-		
-		projectFromDB.getMembers().add(userFromDB);
-		userFromDB.getProjects().add(projectFromDB);
-		em.merge(userFromDB);
-		em.merge(projectFromDB);
-		
-		System.out.println("MERGED ...1 ");
+		System.out.println("MEGED IN DAOOOOO1 ");
 		return Response.ok().build(); 
 	}
 	
@@ -70,11 +62,8 @@ public class ProjectManager {
 	@Path("removeProjectMember/{projectId}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response removeProjectMember(User member, @PathParam("projectId") Long projectId){ 
-		Project project = projectDao.findProjectById(projectId);
-		User userFromDB = userDao.findUserByName(member.getUserName());
-		userFromDB.getProjects().remove(project);
-		em.merge(userFromDB);
-		System.out.println("DELETE MERGE 12");
+		projectDao.removeMemberFromProject(member, projectId);
+		System.out.println("DELETE MERGE 12 DAO");
 		return Response.ok().build();
 	}
 	

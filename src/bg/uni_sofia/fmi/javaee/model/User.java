@@ -37,6 +37,12 @@ public class User implements Serializable {
 	@OneToMany(mappedBy = "assignee")
 	private List<Issue> issues;
 	
+	@OneToMany(mappedBy = "reporter")
+	private List<Issue> reportedIssues;
+	
+	@OneToMany(mappedBy = "creator")
+	private List<Comment> comments;
+	
 	@ManyToMany
 	private List<Project> projects;
 	
@@ -94,6 +100,22 @@ public class User implements Serializable {
 
 	public void setIssues(List<Issue> issues) {
 		this.issues = issues;
+	}
+	
+	public List<Issue> getReportedIssues() {
+		return reportedIssues;
+	}
+
+	public void setReportedIssues(List<Issue> reportedIssues) {
+		this.reportedIssues = reportedIssues;
+	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 
 	public List<Project> getProjects() {
