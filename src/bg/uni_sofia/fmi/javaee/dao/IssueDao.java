@@ -29,6 +29,12 @@ public class IssueDao {
 		return comments;
 	}
 	
+	public List<Issue> findAllIssues() {
+		String textQuery = "select i from Issue i";
+		List<Issue> issues = em.createQuery(textQuery, Issue.class).getResultList();
+		return issues;
+	}
+	
 	public List<Issue> findIssuesByProjectId(Long projectId) {
 		String textQuery = "select i from Issue i where i.project.id =:projectId";
 		TypedQuery<Issue> query = em.createQuery(textQuery,Issue.class);

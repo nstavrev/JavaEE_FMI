@@ -37,6 +37,15 @@ public class IssueManager {
 	private UserContext context;
 	
 	@GET
+	@Path("all")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getAllIssues() {
+		List<Issue> allIssues = issueDao.findAllIssues();
+		DataTableObject<Issue> dataTableObject = new DataTableObject<Issue>(allIssues);
+		return gson.toJson(dataTableObject);
+	}
+	
+	@GET
 	@Path("/all/{projectId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getIssuesByProjectId(@PathParam("projectId") Long id){
