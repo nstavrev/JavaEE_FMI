@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
@@ -35,6 +36,9 @@ public class ProjectManager {
 	
 	@PersistenceContext
 	private EntityManager em;
+	
+	@Inject
+	private UserContext userContext;
 	
 	private Gson gson = new Gson();
 	

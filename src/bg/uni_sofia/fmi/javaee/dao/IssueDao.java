@@ -1,5 +1,6 @@
 package bg.uni_sofia.fmi.javaee.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Singleton;
@@ -10,6 +11,7 @@ import javax.persistence.TypedQuery;
 import bg.uni_sofia.fmi.javaee.model.Comment;
 import bg.uni_sofia.fmi.javaee.model.Issue;
 import bg.uni_sofia.fmi.javaee.model.IssueStatus;
+import bg.uni_sofia.fmi.javaee.utils.DonutChartData;
 
 @Singleton
 public class IssueDao {
@@ -32,6 +34,12 @@ public class IssueDao {
 	public List<Issue> findAllIssues() {
 		String textQuery = "select i from Issue i";
 		List<Issue> issues = em.createQuery(textQuery, Issue.class).getResultList();
+		return issues;
+	}
+	
+	public List<Issue> findIssuesByStatus(IssueStatus status) {
+		String textQuery = "select i from Issue i where i.status =:status";
+		List<Issue> issues = em.createQuery(textQuery, Issue.class).setParameter("status", status).getResultList();
 		return issues;
 	}
 	
@@ -59,6 +67,18 @@ public class IssueDao {
 	
 	public void editIssue(Issue issue){
 		em.merge(issue);
+	}
+	
+	public List<DonutChartData> getDonutDataForUserIssues() {
+		List<IssueStatus> issueStatuses = this.findAllStatuses();
+		List<DonutChartData>  result = new ArrayList<DonutChartData>();
+		
+		for (IssueStatus issueStatus : issueStatuses) {
+			List<Issue> issues = this.findIssuesByStatus(issueStatus);
+			DonutChartData data = new DonutChartData(issueStatus.getName(), issues.size());
+			result.add(data);
+		}
+		return result;
 	}
 	
 }

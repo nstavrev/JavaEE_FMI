@@ -115,4 +115,11 @@ public class IssueManager {
 		return gson.toJson(issueDao.findIssueComments(issueId));
 	}
 	
+	@GET
+	@Path("donutData")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getDonutData() {
+		return gson.toJson(issueDao.getDonutDataForUserIssues());
+	}
+	
 }
