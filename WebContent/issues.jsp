@@ -46,27 +46,22 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 id="title" class="page-header"></h1>
+                    <h1 id="title" class="page-header">
+                    </h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
-            <div class="row">
-	            	<div class="col-lg-12">
-	                	<a href="newissue.jsp?id=<% out.print(request.getParameter("id")); %>" class="btn btn-lg btn-primary pull-right">Create Issue</a>
-	                </div>
-            </div>
-            <br/>
              <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-							<h4>Issues</h4>
+							<h4>My Issues</h4>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <table class="table table-striped table-bordered table-hover" id="issues">
                                     <thead>
                                         <tr>
                                             <th>Title</th>
@@ -115,8 +110,8 @@
     
     <script type="text/javascript">
 	    $(document).ready(function() {
-	        $('#dataTables-example').dataTable({
-	        	"ajax": 'rest/issue/all/<% out.print(request.getParameter("id")); %>',
+	        $('#issues').dataTable({
+	        	"ajax": 'rest/issue/all',
 	        	"aoColumns": [
 	        	              {"mData" : "title"},
 	        	              {"mData" : "assignee.userName"},
@@ -132,20 +127,6 @@
 	        });
 	    });
 	    
-	    $.ajax({
-			url : "rest/project/id/<% out.print(request.getParameter("id")); %>",
-			type : "GET",
-			success : function(data){
-				console.log(data);
-				if(data){
-					project = data;
-					$("#title").html(data.name ? data.name : "This project has no name");
-				} else {
-					$("#title").html("Sorry, but such project does not exist");
-				}
-			
-			}
-		});
     </script>
 
 </body>
