@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import bg.uni_sofia.fmi.javaee.model.Role;
 import bg.uni_sofia.fmi.javaee.model.User;
 
 @Singleton
@@ -15,8 +16,9 @@ public class UserDao {
 	@PersistenceContext
 	private EntityManager em;
 
-	public List<User> getAllUsers() {
-		return em.createQuery("SELECT u from User u", User.class)
+	public List<User> findAllUsers() {
+		String textQuery = "SELECT u from User u";
+		return em.createQuery(textQuery, User.class)
 				.getResultList();
 	}
 
@@ -39,6 +41,11 @@ public class UserDao {
         query.setParameter("userName", userName);
         return queryUser(query);
     }
+	
+	public List<Role> findAllRoles() {
+		String textQuery = "select r from Role r";
+		return em.createQuery(textQuery, Role.class).getResultList();
+	}
 
 	private User queryUser(TypedQuery<User> query) {
 		try {

@@ -1,6 +1,7 @@
 package bg.uni_sofia.fmi.javaee.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -24,7 +25,10 @@ public class Role implements Serializable {
 	private Long id;
 	
 	private String name;
-
+	
+	@OneToMany(mappedBy = "role")
+	private List<User> users;
+	
 	public Long getId() {
 		return id;
 	}
@@ -40,5 +44,13 @@ public class Role implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-   
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
+	
 }

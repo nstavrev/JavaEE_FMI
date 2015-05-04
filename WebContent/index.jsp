@@ -93,6 +93,44 @@
                             </div>
                     </div>
                 </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-user fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">26</div>
+                                    <div>Users</div>
+                                </div>
+                            </div>
+                        </div>
+                       <div class="panel-footer">
+	                        	<a class="clearfix" href="users.jsp">
+	                                <span class="pull-left">View All</span>
+	                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+	                        	</a>
+                            </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-yellow">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-user fa-5x"></i>
+                                </div>
+                            </div>
+                        </div>
+                       <div class="panel-footer">
+	                        	<a class="clearfix" href="register.html">
+	                                <span class="pull-left">Register new user</span>
+	                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+	                        	</a>
+                            </div>
+                    </div>
+                </div>
             </div>
             <!-- /.row -->
             <div class="row">

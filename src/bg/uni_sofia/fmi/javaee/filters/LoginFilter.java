@@ -24,17 +24,10 @@ public class LoginFilter implements Filter {
 	@Inject
 	private UserContext context;
 	
-	/**
-	 * @see Filter#init(FilterConfig)
-	 */
 	public void init(FilterConfig fConfig) throws ServletException {
-		System.out.println("init");
 	}
 	
 
-	/**
-	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
-	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
@@ -52,7 +45,7 @@ public class LoginFilter implements Filter {
 		}
 		
 		boolean isLoginPage = requestURI.equals(contextPath + "/login.html");
-		boolean isPostRequestForLogin = requestURI.equals(contextPath + "/rest/user/login");
+		boolean isPostRequestForLogin = requestURI.equals(contextPath + "/rest/auth/login");
 
 		if(isLoginPage || isPostRequestForLogin) {
 			chain.doFilter(request, response);

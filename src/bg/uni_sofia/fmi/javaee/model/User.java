@@ -32,6 +32,7 @@ public class User implements Serializable {
 	
 	private String fullName;
 	
+	@ManyToOne
 	private Role role;
 	
 	@OneToMany(mappedBy = "assignee")

@@ -1,6 +1,5 @@
 package bg.uni_sofia.fmi.javaee.services;
 
-import java.net.HttpURLConnection;
 import java.util.Date;
 import java.util.List;
 
@@ -74,14 +73,8 @@ public class IssueManager {
 	@Path("new")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createNewIssue(Issue newIssue) {
-		System.out.println("Insert Reporter 1");
-		if(context.getCurrentUser() == null){
-			return Response.status(HttpURLConnection.HTTP_UNAUTHORIZED).build();
-		}
-		
 		newIssue.setReporter(context.getCurrentUser());
 		newIssue.setCreationDate(new Date());
-		System.out.println("hopa " + newIssue.getStatus().getId());
 		issueDao.createNewIssue(newIssue); 
 		return Response.ok().build();
 	}
@@ -90,7 +83,6 @@ public class IssueManager {
 	@Path("edit")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response editIssue(Issue issue) { 
-		System.out.println("opa 123");
 		issueDao.editIssue(issue);
 		return Response.ok().build();
 	}

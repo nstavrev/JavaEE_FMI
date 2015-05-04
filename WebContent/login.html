@@ -59,21 +59,23 @@
 							<h3 class="panel-title">Sign In</h3>
 						</div>
 						<div class="panel-body">
-							<fieldset>
-								<div id="alert" class="form-group">
-									
-								</div>
-								<div class="form-group">
-									<input id="username" class="form-control" placeholder="Username"
-										type="text" autofocus>
-								</div>
-								<div class="form-group">
-									<input id="password" class="form-control"
-										placeholder="Password" name="password" type="password">
-								</div>
-								<button onclick="login()"
-									class="btn btn-lg btn-success btn-block">Login</button>
-							</fieldset>
+							<form role="form">
+								<fieldset>
+									<div id="alert" class="form-group">
+										
+									</div>
+									<div class="form-group">
+										<input id="username" class="form-control" placeholder="Username"
+											type="text" autofocus>
+									</div>
+									<div class="form-group">
+										<input id="password" class="form-control"
+											placeholder="Password" name="password" type="password">
+									</div>
+									<button type="button" onclick="login()"
+										class="btn btn-lg btn-success btn-block">Login</button>
+								</fieldset>
+							</form>
 						</div>
 					</div>
 				</div>
@@ -105,7 +107,7 @@
 				}		
 			}
 			$.ajax({
-				url : "rest/user/login",
+				url : "rest/auth/login",
 				type : "POST",
 				contentType: "application/json;charset=UTF-8",
 				data : JSON.stringify(data),
