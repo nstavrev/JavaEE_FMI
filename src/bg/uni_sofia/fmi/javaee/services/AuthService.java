@@ -1,13 +1,18 @@
 package bg.uni_sofia.fmi.javaee.services;
 
+import java.io.IOException;
 import java.net.HttpURLConnection;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -37,5 +42,17 @@ public class AuthService {
 		context.setCurrentUser(userDao.findUserByName(user.getUserName()));
 		
 		return Response.ok().build();
+	}
+	
+	@GET
+	@Path("logout")
+	public void logout(@Context HttpServletRequest request, @Context HttpServletResponse response) {
+		request.getSession().invalidate();
+		try {
+			response.sendRedirect(request.getContextPath() + "/login.html");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }
