@@ -115,6 +115,16 @@
     <script src="js/sb-admin-2.js"></script>
     
     <script type="text/javascript">
+    	function removeUser(id) {
+    		$.ajax({
+    			url : "rest/admin/remove?id=" + id,
+    			type : "DELETE",
+    			success : function(data){
+    				var table = $('#issues').DataTable();
+    		        table.ajax.reload();
+    			}
+    		})
+    	}
 	    $(document).ready(function() {
 	        $('#issues').dataTable({
 	        	"ajax": 'rest/admin/users',
@@ -125,7 +135,7 @@
 	        	              {"mData" : "role.name"},
 	        	              { "mRender" : function(data, a, row) {
 	        	            	  console.log(row);
-	        	            		  return "<a href='issue.jsp?id=" + row.id + "' class='btn btn-default'>Review</a>";
+	        	            		  return "<button onclick=removeUser(" + row.id + ") class='btn btn-danger'>Remove</button>";
 	        	              	} 
 	        	              }
 	        	        ]

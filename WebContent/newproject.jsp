@@ -123,10 +123,6 @@
 				}
 			});
 		
-		function addNewMember() {
-			console.log(newProject);
-		}
-		
 		function refreshMembers() {
 			var members = newProject.project.members;
 			var html = "";
@@ -149,7 +145,7 @@
 				contentType: "application/json;charset=UTF-8",
 				data : JSON.stringify(newProject),
 				success : function(){
-					window.location="projects.html";
+					window.location.replace("projects.jsp");
 				}
 			});
 		}

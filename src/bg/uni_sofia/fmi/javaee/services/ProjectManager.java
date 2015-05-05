@@ -34,11 +34,11 @@ public class ProjectManager {
 	@EJB
 	private UserDao userDao;
 	
+	@Inject
+	private UserContext context;
+	
 	@PersistenceContext
 	private EntityManager em;
-	
-	@Inject
-	private UserContext userContext;
 	
 	private Gson gson = new Gson();
 	
@@ -46,8 +46,8 @@ public class ProjectManager {
 	@Path("new")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createNewProject(Project newProject) {
-		System.out.println("CREATING");
-		projectDao.createProject(newProject);
+		newProject.setCreator(context.getCurrentUser());
+		projectDao.createProject(newProject);  
 		return Response.ok().build();
 	}
 	
@@ -58,7 +58,6 @@ public class ProjectManager {
 		
 		projectDao.addMemberInProject(member, projectId);
 		
-		System.out.println("MEGED IN DAOOOOO1 ");
 		return Response.ok().build(); 
 	}
 	
@@ -67,7 +66,6 @@ public class ProjectManager {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response removeProjectMember(User member, @PathParam("projectId") Long projectId){ 
 		projectDao.removeMemberFromProject(member, projectId);
-		System.out.println("DELETE MERGE 12 DAO");
 		return Response.ok().build();
 	}
 	

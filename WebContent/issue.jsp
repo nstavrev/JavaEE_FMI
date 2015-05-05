@@ -255,7 +255,7 @@
 				contentType: "application/json;charset=UTF-8",
 				data : JSON.stringify(issue),
 				success : function(data){
-					console.log(data);
+					window.location.replace("issues.jsp");
 				}
 			});
 		}

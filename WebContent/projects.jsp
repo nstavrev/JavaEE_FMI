@@ -44,10 +44,18 @@
 		<%@ include file="navigation.jsp" %>
 		<div id="page-wrapper">
 			<div class="row">
-				<div class="col-lg-12">
-					<h1 class="page-header">My Projects</h1>
-				</div>
-			</div>
+                <div class="col-lg-12">
+                    <h1 id="title" class="page-header">Projects</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+	            	<div class="col-lg-12">
+	                	<a href="newproject.jsp" class="btn btn-lg btn-warning pull-right">Create Project</a>
+	                </div>
+            </div>
+            <br/>
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="panel panel-default">
@@ -119,7 +127,7 @@
 				success : function(data){ 
 					var html = "";
 					data.project.forEach(function(project){
-						html += '<div class="row"><div class="col-lg-9">' + project.name + '</div><div class="col-lg-3" style="padding-bottom : 10px"><button onclick="getProjectInfo(' + project.id + ')" class="btn btn-primary">Settings</button>&nbsp&nbsp<a href="project.jsp?id=' + project.id +'" class="btn btn-default">View Issues</a></div></div>';
+						html += '<div class="row"><div class="col-lg-8">' + project.name + '</div><div class="col-lg-4" style="padding-bottom : 10px"><button onclick="getProjectInfo(' + project.id + ')" class="btn btn-primary">Settings</button>&nbsp&nbsp<a href="project.jsp?id=' + project.id +'" class="btn btn-default">View Issues</a>&nbsp<button onclick="removeProject(' + project.id + ')" class="btn btn-danger">Remove</button></div></div>';
 					});
 					$("#projects").html(html);
 				}
@@ -162,6 +170,16 @@
 					$("#title").html(data.name ? data.name : "This project has no name");
 					refreshMembers();
 					$("#project").modal();
+				}
+			});
+		}
+		
+		function removeProject(id) {
+			$.ajax({
+				url : "rest/admin/project/removeProject",
+				type : "DELETE",
+				success : function(data){
+					console.log(data);
 				}
 			});
 		}

@@ -5,11 +5,14 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import bg.uni_sofia.fmi.javaee.model.Project;
 import bg.uni_sofia.fmi.javaee.model.User;
+import bg.uni_sofia.fmi.javaee.services.UserContext;
 
 @Singleton
 public class ProjectDao {
@@ -20,10 +23,14 @@ public class ProjectDao {
 	@EJB
 	private UserDao userDao;
 	
+	@Inject
+	private UserContext userContext;
+	
 	public void createProject(Project project){
 		em.persist(project);
 		if(project.getMembers() != null){
 			List<User> members = new ArrayList<User>(project.getMembers());
+			//ConcurrentModification Exception
 			for (User member : members) {
 				this.addMemberInProject(member, project.getId());
 			}
@@ -31,18 +38,18 @@ public class ProjectDao {
 	}
 	
 	public void addMemberInProject(User member, Long projectId) {
-		User userFromDB = userDao.findUserByName(member.getUserName());
+		User userFromDB = userDao.findUserById(member.getId());
 		
 		Project projectFromDB = this.findProjectById(projectId);
 		projectFromDB.getMembers().add(userFromDB);
+		em.merge(projectFromDB); 
 		userFromDB.getProjects().add(projectFromDB);
-		em.merge(projectFromDB);
-		em.merge(userFromDB);
+		em.merge(userFromDB); 
 	}
 	
 	public void removeMemberFromProject(User member, Long projectId) {
 		Project project = this.findProjectById(projectId);
-		User userFromDB = userDao.findUserByName(member.getUserName());
+		User userFromDB = userDao.findUserById(member.getId());
 		userFromDB.getProjects().remove(project);
 		em.merge(userFromDB);
 	}
@@ -52,7 +59,10 @@ public class ProjectDao {
 	}
 
 	public List<Project> getAllProjects() {
-		return em.createQuery("SELECT p from Project p", Project.class).getResultList();
+		String textQuery = "select p from Project p where p.creator.id =:creator";
+		TypedQuery<Project> query = em.createQuery(textQuery, Project.class).setParameter("creator", userContext.getCurrentUser().getId());
+		List<Project> projects = query.getResultList();
+		return projects;
 	}
 	
 	public Project findProjectById(Long id) {

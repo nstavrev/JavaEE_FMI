@@ -47,9 +47,9 @@ public class Issue implements Serializable {
 	@ManyToOne
 	private User reporter;
 	
-	@OneToMany(mappedBy = "issue", cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)  
 	private List<Comment> comments;
-
+ 
 	public Long getId() {
 		return id;
 	}

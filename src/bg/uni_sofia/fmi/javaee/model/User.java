@@ -35,16 +35,16 @@ public class User implements Serializable {
 	@ManyToOne
 	private Role role;
 	
-	@OneToMany(mappedBy = "assignee")
+	@OneToMany(mappedBy = "assignee", cascade=CascadeType.REMOVE)
 	private List<Issue> issues;
 	
-	@OneToMany(mappedBy = "reporter")
-	private List<Issue> reportedIssues;
+	@OneToMany(mappedBy = "reporter", cascade = CascadeType.REMOVE)
+	private List<Issue> reportedIssues; 
 	
 	@OneToMany(mappedBy = "creator")
 	private List<Comment> comments;
 	
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.MERGE) 
 	private List<Project> projects;
 	
 	public Long getId() {
@@ -126,4 +126,5 @@ public class User implements Serializable {
 	public void setProjects(List<Project> projects) {
 		this.projects = projects;
 	}
+
 }

@@ -4,8 +4,8 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
     <persistence-unit name="JavaEE_FMI">
 	    <description>Container Persistence Unit</description>
-	   <!--  <jta-data-source>nstavrevAppDatasource</jta-data-source> -->
-	    
+		<jta-data-source>java:openejb/Resource/PostgreSQL</jta-data-source>
+			    
 	    <class>bg.uni_sofia.fmi.javaee.model.User</class>
 	    <class>bg.uni_sofia.fmi.javaee.model.Project</class>
 	    <class>bg.uni_sofia.fmi.javaee.model.Issue</class>

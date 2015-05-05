@@ -35,6 +35,10 @@ public class UserDao {
 		return queryUser(query) != null;
 	}
 	
+	public User findUserById(Long id) {
+		return em.find(User.class, id);
+	}
+	
 	public User findUserByName(String userName) {
         String textQuery = "SELECT u FROM User u WHERE u.userName = :userName";
         TypedQuery<User> query = em.createQuery(textQuery, User.class);
@@ -45,6 +49,10 @@ public class UserDao {
 	public List<Role> findAllRoles() {
 		String textQuery = "select r from Role r";
 		return em.createQuery(textQuery, Role.class).getResultList();
+	}
+	
+	public void removeUserById(Long id) {
+		em.remove(this.findUserById(id));
 	}
 
 	private User queryUser(TypedQuery<User> query) {

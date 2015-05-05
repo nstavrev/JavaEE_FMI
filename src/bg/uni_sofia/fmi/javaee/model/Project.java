@@ -4,12 +4,14 @@ package bg.uni_sofia.fmi.javaee.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -29,9 +31,10 @@ public class Project implements Serializable {
 	
 	private String name;
 	
+	@OneToOne
 	private User creator;
 	
-	@OneToMany(mappedBy = "project")
+	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
 	private List<Issue> issues;
 	
 	@ManyToMany(mappedBy = "projects")
