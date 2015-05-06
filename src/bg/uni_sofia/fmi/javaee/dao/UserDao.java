@@ -3,21 +3,32 @@ package bg.uni_sofia.fmi.javaee.dao;
 import java.util.List;
 
 import javax.ejb.Singleton;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import bg.uni_sofia.fmi.javaee.model.Role;
 import bg.uni_sofia.fmi.javaee.model.User;
+import bg.uni_sofia.fmi.javaee.services.UserContext;
 
 @Singleton
 public class UserDao {
 
 	@PersistenceContext
 	private EntityManager em;
-
+	
+	@Inject
+	private UserContext userContext;
+	
 	public List<User> findAllUsers() {
-		String textQuery = "SELECT u from User u";
+		String textQuery;
+		if(userContext.getCurrentUser().getRole().getName().equals("Administrator")){
+			textQuery = "select u from User u";
+		} else {
+			textQuery = "select u from User u where u.role.name = 'User'";
+		}
+		System.out.println(textQuery);
 		return em.createQuery(textQuery, User.class)
 				.getResultList();
 	}
@@ -27,7 +38,7 @@ public class UserDao {
 	}
 
 	public boolean validateCredentials(String userName, String password) {
-		String textQuery = "SELECT u FROM User u WHERE u.userName=:userName AND u.password=:password";
+		String textQuery = "select u from User u where u.userName=:userName and u.password=:password";
 		
 		TypedQuery<User> query = em.createQuery(textQuery, User.class)
 				.setParameter("userName", userName)
@@ -40,7 +51,7 @@ public class UserDao {
 	}
 	
 	public User findUserByName(String userName) {
-        String textQuery = "SELECT u FROM User u WHERE u.userName = :userName";
+        String textQuery = "select u from User u where u.userName = :userName";
         TypedQuery<User> query = em.createQuery(textQuery, User.class);
         query.setParameter("userName", userName);
         return queryUser(query);
