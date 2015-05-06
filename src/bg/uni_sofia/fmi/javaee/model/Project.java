@@ -38,7 +38,7 @@ public class Project implements Serializable {
 	private List<Issue> issues;
 	
 	@ManyToMany(mappedBy = "projects")
-	private List<User> members;
+	private List<User> members; 
 
 	public Long getId() {
 		return id;

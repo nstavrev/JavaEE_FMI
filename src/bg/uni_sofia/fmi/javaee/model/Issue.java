@@ -29,10 +29,10 @@ public class Issue implements Serializable {
 	
 	private String description;
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date dueDate;
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date creationDate;
 	
 	@ManyToOne

@@ -44,7 +44,7 @@ public class User implements Serializable {
 	@OneToMany(mappedBy = "creator")
 	private List<Comment> comments;
 	
-	@ManyToMany(cascade = CascadeType.MERGE) 
+	@ManyToMany 
 	private List<Project> projects;
 	
 	public Long getId() {

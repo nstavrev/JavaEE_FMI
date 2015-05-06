@@ -108,8 +108,8 @@
 
 	<script type="text/javascript">
 		$.ajax({
-			url : "rest/admin/roles",
-			type : "GET",
+			url : "rest/admin/user/roles",
+			type : "GET", 
 			success : function(data) {
 				data.forEach(function(role){
 					$("#roles").append($('<option>', {
@@ -133,7 +133,7 @@
 			}
 			
 			$.ajax({
-				url : "rest/admin/register",
+				url : "rest/admin/user/register",
 				type : "POST",
 				contentType: "application/json;charset=UTF-8",
 				data : JSON.stringify(data),

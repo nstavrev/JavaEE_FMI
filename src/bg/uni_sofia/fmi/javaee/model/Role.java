@@ -26,7 +26,7 @@ public class Role implements Serializable {
 	
 	private String name;
 	
-	@OneToMany(mappedBy = "role")
+	@OneToMany(mappedBy = "role", cascade = CascadeType.REMOVE)
 	private List<User> users;
 	
 	public Long getId() {

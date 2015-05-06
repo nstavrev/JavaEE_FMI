@@ -69,4 +69,8 @@ public class ProjectDao {
 		return em.find(Project.class, id);
 	}
 	
+	public void removeProject(Long id) {
+		em.remove(this.findProjectById(id));
+	}
+	
 }

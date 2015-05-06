@@ -19,6 +19,8 @@ public class AdminProjectManager {
 	@DELETE 
 	@Path("remove")
 	public Response removeProject(@QueryParam("id") Long id) {
+		projectDao.removeProject(id);
 		return Response.ok().build(); 
 	}
+	
 }

@@ -117,7 +117,7 @@
     <script type="text/javascript">
     	function removeUser(id) {
     		$.ajax({
-    			url : "rest/admin/remove?id=" + id,
+    			url : "rest/admin/user/remove?id=" + id,
     			type : "DELETE",
     			success : function(data){
     				var table = $('#issues').DataTable();
@@ -127,7 +127,7 @@
     	}
 	    $(document).ready(function() {
 	        $('#issues').dataTable({
-	        	"ajax": 'rest/admin/users',
+	        	"ajax": 'rest/admin/user/users',
 	        	"aoColumns": [
 	        	              {"mData" : "userName"},
 	        	              {"mData" : "email"},
