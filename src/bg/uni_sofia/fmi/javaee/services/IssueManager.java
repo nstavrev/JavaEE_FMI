@@ -73,9 +73,18 @@ public class IssueManager {
 	@Path("new")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createNewIssue(Issue newIssue) {
+		int initialIssues = issueDao.countUserIssuesByStatus(newIssue
+				.getAssignee().getId(), IssueStatus.INITIAL);
+		int ongoingIssues = issueDao.countUserIssuesByStatus(newIssue
+				.getAssignee().getId(), IssueStatus.ONGOING);
+		if(initialIssues > 2 || ongoingIssues > 2) {
+			System.out.println("HOP TUK SME");
+			return Response.ok().entity("Warning.This user has more than 2 ongoing or inital issues").build();
+		}
 		newIssue.setReporter(context.getCurrentUser());
 		newIssue.setCreationDate(new Date());
 		issueDao.createNewIssue(newIssue); 
+		
 		return Response.ok().build();
 	}
 	

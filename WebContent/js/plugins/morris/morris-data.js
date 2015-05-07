@@ -1,7 +1,7 @@
 $(function() {
-	
+	var contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
 	$.ajax({
-		url : "rest/issue/donutData",
+		url : contextPath + "/rest/issue/donutData",
 		type : "GET",
 		success : function(data){
 			Morris.Donut({

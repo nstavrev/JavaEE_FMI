@@ -20,6 +20,9 @@ public class IssueStatus implements Serializable {
 	 */
 	private static final long serialVersionUID = 2743109814444562147L;
 	
+	public static final String INITIAL = "initial";
+	public static final String ONGOING = "ongoing";
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;

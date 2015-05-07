@@ -19,7 +19,7 @@ import bg.uni_sofia.fmi.javaee.services.UserContext;
 /**
  * Servlet Filter implementation class AdminFilter
  */
-@WebFilter(urlPatterns = { "/rest/admin/*", "/users.jsp", "/admin.jsp", "/register.html" })
+@WebFilter(urlPatterns = { "/rest/admin/*", "/users.jsp", "/admin/*", "/register.html" })
 public class AdminFilter implements Filter {
 	
 	@Inject

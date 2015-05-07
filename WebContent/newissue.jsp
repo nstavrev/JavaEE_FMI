@@ -173,7 +173,10 @@
 				type : "POST",
 				contentType: "application/json;charset=UTF-8",
 				data : JSON.stringify(newIssue),
-				success : function(){
+				success : function(data){
+					if(data && data.length > 0) {
+						alert(data);	
+					}
 					window.location = "project.jsp?id=<% out.print(request.getParameter("id")); %>"
 				}
 			});

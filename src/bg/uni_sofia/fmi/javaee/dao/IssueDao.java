@@ -81,4 +81,15 @@ public class IssueDao {
 		return result;
 	}
 	
+	public int countUserIssuesByStatus(Long userId, String status) {
+		String textQuery = "select i from Issue i "
+				+ "where i.assignee.id =:userId and "
+				+ "i.status.name=:status";
+		TypedQuery<Issue> query = em.createQuery(textQuery, Issue.class);
+		query.setParameter("userId", userId);
+		query.setParameter("status", status);
+		
+		return query.getResultList().size();
+	}
+	
 }

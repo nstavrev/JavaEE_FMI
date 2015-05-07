@@ -40,7 +40,7 @@
     <div id="wrapper">
 
         <!-- Navigation -->
-		<%@ include file="navigation.jsp" %>
+		<%@ include file="../navigation.jsp" %>
 		
         <!-- Page Content -->
         <div id="page-wrapper">

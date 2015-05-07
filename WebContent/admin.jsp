@@ -42,7 +42,7 @@
 <body>
 
 	<div id="wrapper">
-		<%@ include file="navTopLinks.jsp"%>
+		<%@ include file="../navTopLinks.jsp"%>
 		<div id="index-container" class="container">
 			<div class="row">
 				<div class="col-lg-12">

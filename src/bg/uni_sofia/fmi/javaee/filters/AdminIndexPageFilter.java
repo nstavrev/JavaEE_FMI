@@ -39,7 +39,7 @@ public class AdminIndexPageFilter implements Filter {
 			HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 			HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 			String indexPageUrl = httpServletRequest.getContextPath() + "/admin.jsp";
-			httpServletResponse.sendRedirect(indexPageUrl);
+			httpServletResponse.sendRedirect(indexPageUrl); 
 			return; 
 		}
 		chain.doFilter(request, response);
