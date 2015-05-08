@@ -59,7 +59,8 @@
                         	
                             <div class="row">
                                 <div class="col-lg-12">
-                                        <div class="form-group">
+                                		<div id="issueData">
+                                        <!-- <div class="form-group">
                                             <label>Title</label>
                                             <input id="title" class="form-control" placeholder="Enter title">
                                         </div>
@@ -74,7 +75,8 @@
                                         <div class="form-group">
                                         	<label>Assignee</label>
                                         	<input id="assignee" class="form-control" type="text"/>
-                                        </div>
+                                        </div> -->
+                                       </div>
                                         <div class="form-group">
                                         	<label>Status</label>
                                         	<select id="statuses" class="form-control">
@@ -132,6 +134,8 @@
     <!-- Custom Theme JavaScript -->
     <script src="js/sb-admin-2.js"></script>
 	
+	<script src="js/functions.js"></script>
+	
 	<script type="text/javascript">
 		var issue = {
 				issue : {
@@ -139,21 +143,79 @@
 				}
 		};
 		
-		var statuses;
-		
 		$("#dueDate").datepicker()
 		
 		$.ajax({
 			url : "rest/issue/statuses",
 			type : "GET",
 			success : function(data) {
-				statuses = data;
-				statuses.forEach(function(status){
+				data.forEach(function(status){
 					$("#statuses").append($('<option>', {
 					    value: status.id,
 					    text: status.name
 					}));
 				});
+			}
+		});
+		
+		
+		var editIssue = undefined;
+		
+		getUserRole(function(role){
+			getIssueById('<% out.print(request.getParameter("id")); %>', function(data){
+				issue.issue = data;
+				if(role.name == "Administrator"){
+					loadIssueDataForAdmin(function(html){
+						$("#issueData").html(html);
+						$("#projectName").html(data.project.name);
+						$("#issueTitle").html("Issue " + data.id);
+						$("#title").val(data.title);
+						$("#description").val(data.description);
+						$("#dueDate").val(data.dueDate);
+						$("#assignee").val(data.assignee.userName);
+						$("#statuses").val(data.status.id);
+					});
+				} else {
+					loadIssueDataForUser(function(html){
+						$("#issueData").html(html);
+						$("#title").html(data.title);
+						$("#description").html(data.description);
+						$("#dueDate").html(data.dueDate);
+						$("#assignee").html(data.assignee.userName);
+					});
+				}
+				
+			});
+
+			if(role.name == "Administrator"){
+				editIssue = function() {
+					issue.issue.title = $("#title").val();
+					issue.issue.description = $("#description").val();
+					issue.issue.dueDate = new Date($("#dueDate").val());
+					issue.issue.status.id = $("#statuses").val();
+					$.ajax({
+						url : "rest/admin/issue/edit",
+						type : "POST",
+						contentType: "application/json;charset=UTF-8",
+						data : JSON.stringify(issue),
+						success : function(data){
+							window.location.replace("issues.jsp");
+						}
+					});
+				}
+			} else {
+				editIssue = function(){
+					issue.issue.status.id = $("#statuses").val();
+					$.ajax({
+						url : "rest/issue/changeStatus",
+						type : "POST",
+						contentType: "application/json;charset=UTF-8",
+						data : JSON.stringify(issue),
+						success : function(data){
+							window.location.replace("issues.jsp");
+						}
+					});
+				}
 			}
 		});
 		
@@ -198,21 +260,6 @@
 		
 		getComments();
 		
-		$.ajax({
-			url : "rest/issue/id/<% out.print(request.getParameter("id")); %>",
-			type : "GET",
-			success : function(data){
-				issue.issue = data;
-				$("#projectName").html(data.project.name);
-				$("#issueTitle").html("Issue " + data.id);
-				$("#title").val(data.title);
-				$("#description").val(data.description);
-				$("#dueDate").val(data.dueDate);
-				$("#assignee").val(data.assignee.userName);
-				$("#statuses").val(data.status.id);
-			}
-		});
-		
 		function addComment() {
 			var comment = {
 					comment : {
@@ -243,24 +290,6 @@
 			});
 		}
 		
-		function editIssue() {
-			issue.issue.title = $("#title").val();
-			issue.issue.description = $("#description").val();
-			issue.issue.dueDate = new Date($("#dueDate").val());
-			issue.issue.status.id = $("#statuses").val();
-			
-			$.ajax({
-				url : "rest/issue/edit",
-				type : "POST",
-				contentType: "application/json;charset=UTF-8",
-				data : JSON.stringify(issue),
-				success : function(data){
-					window.location.replace("issues.jsp");
-				}
-			});
-		}
-		
-
 	</script>
 	
 </body>

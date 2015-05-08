@@ -23,9 +23,6 @@ public class ProjectDao {
 	@EJB
 	private UserDao userDao;
 	
-	@Inject
-	private UserContext userContext;
-	
 	public void createProject(Project project){
 		em.persist(project);
 		if(project.getMembers() != null){
@@ -59,8 +56,8 @@ public class ProjectDao {
 	}
 
 	public List<Project> getAllProjects() {
-		String textQuery = "select p from Project p where p.creator.id =:creator";
-		TypedQuery<Project> query = em.createQuery(textQuery, Project.class).setParameter("creator", userContext.getCurrentUser().getId());
+		String textQuery = "select p from Project p";
+		TypedQuery<Project> query = em.createQuery(textQuery, Project.class);
 		List<Project> projects = query.getResultList();
 		return projects;
 	}

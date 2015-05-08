@@ -89,10 +89,11 @@ public class IssueManager {
 	}
 	
 	@POST
-	@Path("edit")
+	@Path("changeStatus")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response editIssue(Issue issue) { 
-		issueDao.editIssue(issue);
+	public Response changeIssueStatus(Issue issue){
+		Issue issueFromDB = issueDao.findIssueById(issue.getId());
+		issueFromDB.setStatus(issue.getStatus()); 
 		return Response.ok().build();
 	}
 	

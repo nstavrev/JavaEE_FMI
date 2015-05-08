@@ -110,21 +110,22 @@
     
     <script type="text/javascript">
 	    $(document).ready(function() {
-	        $('#issues').dataTable({
-	        	"ajax": 'rest/issue/all',
-	        	"aoColumns": [
-	        	              {"mData" : "title"},
-	        	              {"mData" : "assignee.userName"},
-	        	              {"mData" : "reporter.userName"},
-	        	              {"mData" : "dueDate"},
-	        	              {"mData" : "status.name"},
-	        	              { "mRender" : function(data, a, row) {
-	        	            	  console.log(row);
-	        	            		  return "<a href='issue.jsp?id=" + row.id + "' class='btn btn-default'>Review</a>";
-	        	              	} 
-	        	              }
-	        	        ]
-	        });
+	    		 $('#issues').dataTable({
+	 	        	"ajax": 'rest/issue/all',
+	 	        	"aoColumns": [
+	 	        	              {"mData" : "title"},
+	 	        	              {"mData" : "assignee.userName"},
+	 	        	              {"mData" : "reporter.userName"},
+	 	        	              {"mData" : "dueDate"},
+	 	        	              {"mData" : "status.name"},
+	 	        	              { "mRender" : function(data, a, row) {
+	 	        	            		  return "<a href='issue.jsp?id=" + row.id + "' class='btn btn-default'>Review</a>";
+	 	        	              	} 
+	 	        	              }
+	 	        	        ]
+	 	        });
+	    	
+	       
 	    });
 	    
     </script>
