@@ -120,23 +120,21 @@
 			}
 		});
 		function register() {
-			var data = {
-				user : {
-					userName : $("#username").val(),
-					password : $("#password").val(),
-					email : $("#email").val(),
-					fullName : $("#fullName").val(),
-					role : {
-						id : $("#roles").val()
-					}
-				}		
+			var user = {
+				userName : $("#username").val(),
+				password : $("#password").val(),
+				email : $("#email").val(),
+				fullName : $("#fullName").val(),
+				role : {
+					id : $("#roles").val()
+				}
 			}
 			
 			$.ajax({
 				url : "rest/admin/user/register",
 				type : "POST",
 				contentType: "application/json;charset=UTF-8",
-				data : JSON.stringify(data),
+				data : JSON.stringify(user),
 				success : function(){
 					window.location.replace("users.jsp");
 				}

@@ -2,7 +2,7 @@ package bg.uni_sofia.fmi.javaee.utils;
 /**
  * 
  * @author nstavrev
- *	Representing one donut char data, which is used in index.jsp
+ *	Representing one donut chart data, which is used in index.jsp
  */
 public class DonutChartData {
 	

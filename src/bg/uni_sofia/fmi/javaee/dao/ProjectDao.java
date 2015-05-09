@@ -5,14 +5,12 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import bg.uni_sofia.fmi.javaee.model.Project;
 import bg.uni_sofia.fmi.javaee.model.User;
-import bg.uni_sofia.fmi.javaee.services.UserContext;
 
 @Singleton
 public class ProjectDao {

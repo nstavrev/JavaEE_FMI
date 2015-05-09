@@ -15,19 +15,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.google.gson.Gson;
-
 import bg.uni_sofia.fmi.javaee.dao.IssueDao;
 import bg.uni_sofia.fmi.javaee.model.Comment;
 import bg.uni_sofia.fmi.javaee.model.Issue;
 import bg.uni_sofia.fmi.javaee.model.IssueStatus;
 import bg.uni_sofia.fmi.javaee.utils.DataTableObject;
+import bg.uni_sofia.fmi.javaee.utils.DonutChartData;
 
 @Stateless
 @Path("issue")
 public class IssueManager {
-	
-	private Gson gson = new Gson();
 	
 	@EJB
 	private IssueDao issueDao;
@@ -38,35 +35,35 @@ public class IssueManager {
 	@GET
 	@Path("all")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getAllIssues() {
+	public DataTableObject<Issue> getAllIssues() {
 		List<Issue> allIssues = issueDao.findAllIssues();
 		DataTableObject<Issue> dataTableObject = new DataTableObject<Issue>(allIssues);
-		return gson.toJson(dataTableObject);
+		return dataTableObject;
 	}
 	
 	@GET
 	@Path("/all/{projectId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getIssuesByProjectId(@PathParam("projectId") Long id){
+	public DataTableObject<Issue> getIssuesByProjectId(@PathParam("projectId") Long id){
 		List<Issue> projectIssues = issueDao.findIssuesByProjectId(id);
 	
 		DataTableObject<Issue> dataTableObject = new DataTableObject<Issue>(projectIssues);
-		return gson.toJson(dataTableObject); 
+		return dataTableObject;
 	}
 	
 	@GET
 	@Path("statuses")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getAllIssueStatuses() { 
+	public List<IssueStatus> getAllIssueStatuses() { 
 		List<IssueStatus> statuses = issueDao.findAllStatuses();
-		return gson.toJson(statuses);
+		return statuses;
 	}
 	
 	@GET
 	@Path("id/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getIssueById(@PathParam("id") Long id) {
-		return gson.toJson(issueDao.findIssueById(id));
+	public Issue getIssueById(@PathParam("id") Long id) {
+		return issueDao.findIssueById(id);
 	}
 	
 	@POST
@@ -78,7 +75,6 @@ public class IssueManager {
 		int ongoingIssues = issueDao.countUserIssuesByStatus(newIssue
 				.getAssignee().getId(), IssueStatus.ONGOING);
 		if(initialIssues > 2 || ongoingIssues > 2) {
-			System.out.println("HOP TUK SME");
 			return Response.ok().entity("Warning.This user has more than 2 ongoing or inital issues").build();
 		}
 		newIssue.setReporter(context.getCurrentUser());
@@ -113,15 +109,15 @@ public class IssueManager {
 	@GET
 	@Path("comments/{issueId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getCommentsByIssueId(@PathParam("issueId") Long issueId){
-		return gson.toJson(issueDao.findIssueComments(issueId));
+	public List<Comment> getCommentsByIssueId(@PathParam("issueId") Long issueId){
+		return issueDao.findIssueComments(issueId);
 	}
 	
 	@GET
 	@Path("donutData")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getDonutData() {
-		return gson.toJson(issueDao.getDonutDataForUserIssues());
+	public List<DonutChartData> getDonutData() {
+		return issueDao.getDonutDataForUserIssues();
 	}
 	
 }

@@ -10,9 +10,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.google.gson.Gson;
-
 import bg.uni_sofia.fmi.javaee.dao.UserDao;
+import bg.uni_sofia.fmi.javaee.model.Role;
 import bg.uni_sofia.fmi.javaee.model.User;
 
 @Stateless
@@ -25,8 +24,6 @@ public class UserManager {
 	@Inject
 	private UserContext userContext;
 	
-	private Gson gson = new Gson();
-	
 	@GET
 	@Path("all")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -37,8 +34,8 @@ public class UserManager {
 	@GET
 	@Path("role")
 	@Produces
-	public String getCurrentUserRole(){
-		return gson.toJson(userContext.getCurrentUser().getRole());
+	public Role getCurrentUserRole(){ 
+		return userContext.getCurrentUser().getRole();
 	}
 
 }

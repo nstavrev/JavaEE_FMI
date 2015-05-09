@@ -101,10 +101,8 @@
 	<script type="text/javascript">
 		function login() {
 			var data = {
-				user : {
 					userName : $("#username").val(),
 					password : $("#password").val()
-				}		
 			}
 			$.ajax({
 				url : "rest/auth/login",

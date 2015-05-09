@@ -91,10 +91,8 @@
 	
 	<script type="text/javascript">
 	                 
-		var newProject = {
-				project : {
-					members : []	
-				}
+		var project = {
+				members : []
 		}
 		
 			$.ajax({
@@ -102,14 +100,14 @@
 				type : "GET",
 				success : function(data){
 					var arr = [];
-					data.user.forEach(function(user){
+					data.forEach(function(user){
 						arr.push({ label : user.userName, value : user.username, object : user});
 					});
 					
 					$( "#username" ).autocomplete({
 						source: arr,
 						select : function(event, item) {
-							newProject.project.members.push(item.item.object);
+							project.members.push(item.item.object);
 							refreshMembers();
 						}
 					}).data("ui-autocomplete")._renderItem = function(ul, item){
@@ -124,7 +122,7 @@
 			});
 		
 		function refreshMembers() {
-			var members = newProject.project.members;
+			var members = project.members;
 			var html = "";
 			members.forEach(function(member, index){
 				html += "<div class='form-group'><label>" + member.userName + "</label> <button onclick='removeMember(" + index + ")' class='btn btn-danger'>Remove</button></div>";
@@ -133,17 +131,17 @@
 		}
 		
 		function removeMember(index){
-			newProject.project.members.splice(index, 1);
+			project.members.splice(index, 1);
 			refreshMembers();
 		}
 		
 		function createNewProject() {
-			newProject.project.name = $("#projectName").val();
+			project.name = $("#projectName").val();
 			$.ajax({
 				url : "rest/project/new",
 				type : "POST",
 				contentType: "application/json;charset=UTF-8",
-				data : JSON.stringify(newProject),
+				data : JSON.stringify(project),
 				success : function(){
 					window.location.replace("projects.jsp");
 				}

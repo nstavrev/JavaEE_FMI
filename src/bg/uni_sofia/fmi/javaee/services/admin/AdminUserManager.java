@@ -14,9 +14,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.google.gson.Gson;
-
 import bg.uni_sofia.fmi.javaee.dao.UserDao;
+import bg.uni_sofia.fmi.javaee.model.Role;
 import bg.uni_sofia.fmi.javaee.model.User;
 import bg.uni_sofia.fmi.javaee.utils.DataTableObject;
 
@@ -27,22 +26,20 @@ public class AdminUserManager {
 	@EJB
 	private UserDao userDao;
 	
-	private Gson gson = new Gson();
-	
 	@GET
 	@Path("users")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getAllUsers() {
+	public DataTableObject<User> getAllUsers() {
 		List<User> users = userDao.findAllUsers();
 		DataTableObject<User> dataTableObject = new DataTableObject<User>(users);
-		return gson.toJson(dataTableObject);
+		return dataTableObject;
 	}
 	
 	@GET
 	@Path("roles")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getAllRoles() {
-		return gson.toJson(userDao.findAllRoles());
+	public List<Role> getAllRoles() {
+		return userDao.findAllRoles();
 	}
 	
 	@POST

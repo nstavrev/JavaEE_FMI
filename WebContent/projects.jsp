@@ -120,25 +120,27 @@
 
 	<script type="text/javascript">
 			var project = {};
-			
-			$.ajax({
-				url : "rest/project/all",
-				type : "GET",
-				success : function(data){ 
-					var html = "";
-					data.project.forEach(function(project){
-						html += '<div class="row"><div class="col-lg-7">' + project.name + '</div><div class="col-lg-5" style="padding-bottom : 10px"><button onclick="getProjectInfo(' + project.id + ')" class="btn btn-primary">Settings</button>&nbsp&nbsp<a href="project.jsp?id=' + project.id +'" class="btn btn-default">View Issues</a>&nbsp<a href="newissue.jsp?id=' + project.id + '" class="btn btn-info">Create Issue</a>&nbsp&nbsp<button onclick="removeProject(' + project.id + ')" class="btn btn-danger">Remove</button></div></div>';
-					});
-					$("#projects").html(html);
-				}
-			});
+			function loadProjects(){
+				$.ajax({
+					url : "rest/project/all",
+					type : "GET",
+					success : function(data){ 
+						var html = "";
+						data.forEach(function(project){
+							html += '<div class="row"><div class="col-lg-7">' + project.name + '</div><div class="col-lg-5" style="padding-bottom : 10px"><button onclick="getProjectInfo(' + project.id + ')" class="btn btn-primary">Settings</button>&nbsp&nbsp<a href="project.jsp?id=' + project.id +'" class="btn btn-default">View Issues</a>&nbsp<a href="newissue.jsp?id=' + project.id + '" class="btn btn-info">Create Issue</a>&nbsp&nbsp<button onclick="removeProject(' + project.id + ')" class="btn btn-danger">Remove</button></div></div>';
+						});
+						$("#projects").html(html);
+					}
+				});	
+			}
+			loadProjects();
 			
 			$.ajax({
 				url : "rest/user/all",
 				type : "GET",
 				success : function(data){
 					var arr = [];
-					data.user.forEach(function(user){
+					data.forEach(function(user){
 						arr.push({ label : user.userName, value : user.userName, object : user});
 					});
 					console.log(arr);
@@ -165,7 +167,6 @@
 				url : "rest/project/id/" + id,
 				type : "GET",
 				success : function(data){
-					console.log(data);
 					project = data;
 					$("#title").html(data.name ? data.name : "This project has no name");
 					refreshMembers();
@@ -179,7 +180,7 @@
 				url : "rest/admin/project/remove?id=" + id,
 				type : "DELETE",
 				success : function(data){
-					console.log(data);
+					loadProjects();
 				}
 			});
 		}
@@ -198,7 +199,7 @@
 				url : "rest/project/removeProjectMember/" + project.id,
 				type : "POST",
 				contentType: "application/json;charset=UTF-8",
-				data : JSON.stringify({ user : project.members[index] }),
+				data : JSON.stringify(project.members[index]),
 				success : function(data){
 					project.members.splice(index, 1);
 					refreshMembers();
@@ -213,7 +214,7 @@
 				url : "rest/project/newProjectMember/" + project.id,
 				type : "POST",
 				contentType: "application/json;charset=UTF-8",
-				data : JSON.stringify({ user : member }),
+				data : JSON.stringify(member),
 				success : function(data){
 					console.log(data);
 				}

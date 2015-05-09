@@ -40,8 +40,6 @@ public class ProjectManager {
 	@PersistenceContext
 	private EntityManager em;
 	
-	private Gson gson = new Gson();
-	
 	@POST
 	@Path("new")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -79,11 +77,11 @@ public class ProjectManager {
 	@GET
 	@Path("id/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String findProjectById(@PathParam("id") Long id){
+	public Project findProjectById(@PathParam("id") Long id){
 		Project project = projectDao.findProjectById(id);
-		if(project != null) {
+		if(project != null) { 
 			project.getMembers();
-			return gson.toJson(project);
+			return project;
 		}
 		return null;
 	}

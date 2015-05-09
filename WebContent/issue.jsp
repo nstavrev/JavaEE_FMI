@@ -137,13 +137,11 @@
 	<script src="js/functions.js"></script>
 	
 	<script type="text/javascript">
+	
 		var issue = {
-				issue : {
-					status : {}
-				}
-		};
+			status : {}
+		}
 		
-		$("#dueDate").datepicker()
 		
 		$.ajax({
 			url : "rest/issue/statuses",
@@ -163,7 +161,7 @@
 		
 		getUserRole(function(role){
 			getIssueById('<% out.print(request.getParameter("id")); %>', function(data){
-				issue.issue = data;
+				issue = data;
 				if(role.name == "Administrator"){
 					loadIssueDataForAdmin(function(html){
 						$("#issueData").html(html);
@@ -174,6 +172,7 @@
 						$("#dueDate").val(data.dueDate);
 						$("#assignee").val(data.assignee.userName);
 						$("#statuses").val(data.status.id);
+						$("#dueDate").datepicker(); 
 					});
 				} else {
 					loadIssueDataForUser(function(html){
@@ -189,10 +188,10 @@
 
 			if(role.name == "Administrator"){
 				editIssue = function() {
-					issue.issue.title = $("#title").val();
-					issue.issue.description = $("#description").val();
-					issue.issue.dueDate = new Date($("#dueDate").val());
-					issue.issue.status.id = $("#statuses").val();
+					issue.title = $("#title").val();
+					issue.description = $("#description").val();
+					issue.dueDate = $("#dueDate").val();
+					issue.status.id = $("#statuses").val();
 					$.ajax({
 						url : "rest/admin/issue/edit",
 						type : "POST",
@@ -205,7 +204,7 @@
 				}
 			} else {
 				editIssue = function(){
-					issue.issue.status.id = $("#statuses").val();
+					issue.status.id = $("#statuses").val();
 					$.ajax({
 						url : "rest/issue/changeStatus",
 						type : "POST",
@@ -224,6 +223,7 @@
 				url : "rest/issue/comments/<% out.print(request.getParameter("id")); %>",
 				type : "GET",
 				success : function(data) {
+					console.log(data);
 					var html = "";
 					data.forEach(function(comment){
 						
@@ -262,12 +262,11 @@
 		
 		function addComment() {
 			var comment = {
-					comment : {
-						content : $("#comment").val()
-					}
-			}
+				content : $("#comment").val()
+			};
+			
 			$.ajax({
-				url : "rest/issue/addComment/" + issue.issue.id,
+				url : "rest/issue/addComment/" + issue.id,
 				type : "POST",
 				contentType: "application/json;charset=UTF-8",
 				data : JSON.stringify(comment),
