@@ -27,18 +27,16 @@ public class ProjectDao {
 			List<User> members = new ArrayList<User>(project.getMembers());
 			//ConcurrentModification Exception
 			for (User member : members) {
-				this.addMemberInProject(member, project.getId());
+				this.addMemberInProject(member, project);
 			}
 		}
 	}
 	
-	public void addMemberInProject(User member, Long projectId) {
+	public void addMemberInProject(User member, Project project) {
 		User userFromDB = userDao.findUserById(member.getId());
-		
-		Project projectFromDB = this.findProjectById(projectId);
-		projectFromDB.getMembers().add(userFromDB);
-		em.merge(projectFromDB); 
-		userFromDB.getProjects().add(projectFromDB);
+		project.getMembers().add(userFromDB);
+		em.merge(project); 
+		userFromDB.getProjects().add(project);
 		em.merge(userFromDB); 
 	}
 	

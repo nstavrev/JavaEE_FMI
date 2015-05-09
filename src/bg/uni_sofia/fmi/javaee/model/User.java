@@ -41,7 +41,7 @@ public class User implements Serializable {
 	@OneToMany(mappedBy = "reporter", cascade = CascadeType.REMOVE)
 	private List<Issue> reportedIssues; 
 	
-	@OneToMany(mappedBy = "creator")
+	@OneToMany(mappedBy = "creator", cascade = CascadeType.REMOVE) 
 	private List<Comment> comments;
 	
 	@ManyToMany 

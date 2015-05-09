@@ -54,7 +54,7 @@ public class ProjectManager {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addNewProjectMember(User member, @PathParam("projectId") Long projectId) {
 		
-		projectDao.addMemberInProject(member, projectId);
+		projectDao.addMemberInProject(member, projectDao.findProjectById(projectId));
 		
 		return Response.ok().build(); 
 	}
