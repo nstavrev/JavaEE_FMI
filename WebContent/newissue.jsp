@@ -106,11 +106,9 @@
     <script src="js/sb-admin-2.js"></script>
 	
 	<script type="text/javascript">
-		var newIssue = {
-				issue : {
-					status : {}
-				}
-		};
+		var issue = {
+			status : {}
+		}
 		
 		var statuses;
 		
@@ -120,7 +118,7 @@
 			url : "rest/project/id/<% out.print(request.getParameter("id")); %>",
 			type : "GET",
 			success : function(data){
-				newIssue.issue.project = data;
+				issue.project = data;
 				$("#projectName").html(data.name)
 			}
 		});
@@ -144,14 +142,14 @@
 			type : "GET",
 			success : function(data){
 				var arr = [];
-				data.user.forEach(function(user){
+				data.forEach(function(user){
 					arr.push({ label : user.userName, value : user.userName, object : user});
 				});
 				console.log(arr);
 				$( "#assignee" ).autocomplete({
 					source: arr,
 					select : function(event, item) {
-						newIssue.issue.assignee = item.item.object;
+						issue.assignee = item.item.object;
 					}
 				}).data("ui-autocomplete")._renderItem = function(ul, item){
 			 		return $( "<li class='page-row'></li>" )
@@ -163,16 +161,15 @@
 		});
 	
 		function createIssue() {
-			newIssue.issue.title = $("#title").val();
-			newIssue.issue.description = $("#description").val();
-			newIssue.issue.dueDate = new Date($("#dueDate").val());
-			newIssue.issue.status.id = $("#statuses").val();
-			console.log(newIssue);
+			issue.title = $("#title").val();
+			issue.description = $("#description").val();
+			issue.dueDate = $("#dueDate").val();
+			issue.status.id = $("#statuses").val();
 			$.ajax({
 				url : "rest/issue/new",
 				type : "POST",
 				contentType: "application/json;charset=UTF-8",
-				data : JSON.stringify(newIssue),
+				data : JSON.stringify(issue),
 				success : function(data){
 					if(data && data.length > 0) {
 						alert(data);	
