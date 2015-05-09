@@ -22,7 +22,7 @@ import com.google.gson.GsonBuilder;
 @Provider
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class GsonMessageBodyHandler<T> implements MessageBodyReader<T>, MessageBodyWriter<T> {
+public class GsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<T> {
 	
 	private Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
 	 
