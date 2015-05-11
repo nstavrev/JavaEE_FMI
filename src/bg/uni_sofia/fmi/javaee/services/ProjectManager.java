@@ -17,8 +17,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.google.gson.Gson;
-
 import bg.uni_sofia.fmi.javaee.dao.ProjectDao;
 import bg.uni_sofia.fmi.javaee.dao.UserDao;
 import bg.uni_sofia.fmi.javaee.model.Project;

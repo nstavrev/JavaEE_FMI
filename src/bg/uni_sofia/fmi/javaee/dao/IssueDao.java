@@ -37,12 +37,6 @@ public class IssueDao {
 		return issues;
 	}
 	
-	public List<Issue> findIssuesByStatus(IssueStatus status) {
-		String textQuery = "select i from Issue i where i.status =:status";
-		List<Issue> issues = em.createQuery(textQuery, Issue.class).setParameter("status", status).getResultList();
-		return issues;
-	}
-	
 	public List<Issue> findIssuesByProjectId(Long projectId) {
 		String textQuery = "select i from Issue i where i.project.id =:projectId";
 		TypedQuery<Issue> query = em.createQuery(textQuery,Issue.class);
@@ -74,22 +68,35 @@ public class IssueDao {
 		List<DonutChartData>  result = new ArrayList<DonutChartData>();
 		
 		for (IssueStatus issueStatus : issueStatuses) {
-			List<Issue> issues = this.findIssuesByStatus(issueStatus);
-			DonutChartData data = new DonutChartData(issueStatus.getName(), issues.size());
+			Long issues = this.findIssuesNumberByStatus(issueStatus);
+			DonutChartData data = new DonutChartData(issueStatus.getName(), issues); 
 			result.add(data);
 		}
 		return result;
 	}
 	
-	public int countUserIssuesByStatus(Long userId, String status) {
-		String textQuery = "select i from Issue i "
-				+ "where i.assignee.id =:userId and "
-				+ "i.status.name=:status";
-		TypedQuery<Issue> query = em.createQuery(textQuery, Issue.class);
+	public Long findAllIssuesNumber() {
+		String textQuery = "select count(issue.id) from Issue issue";
+		TypedQuery<Long> query = em.createQuery(textQuery, Long.class);
+		return query.getSingleResult();
+	}
+	
+	public Long findUserIssuesNumberByStatus(Long userId, String status) {
+		String textQuery = "select count(issue.id) from Issue issue "
+				+ "where issue.assignee.id =:userId and "
+				+ "issue.status.name=:status";
+		TypedQuery<Long> query = em.createQuery(textQuery, Long.class);
 		query.setParameter("userId", userId);
 		query.setParameter("status", status);
 		
-		return query.getResultList().size();
+		return query.getSingleResult();
+	}
+	
+	private Long findIssuesNumberByStatus(IssueStatus status) {
+		String textQuery = "select count(issue.id) from Issue issue where issue.status =:status";
+		TypedQuery<Long> query = em.createQuery(textQuery, Long.class);
+		query.setParameter("status", status);
+		return query.getSingleResult();
 	}
 	
 }

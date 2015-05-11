@@ -35,7 +35,8 @@ public class UserManager {
 	@Path("role")
 	@Produces
 	public Role getCurrentUserRole(){ 
-		return userContext.getCurrentUser().getRole();
+		User user = userDao.findUserById(userContext.getCurrentUser().getId());
+		return user.getRole();
 	}
 
 }

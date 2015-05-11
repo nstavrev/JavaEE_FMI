@@ -14,9 +14,9 @@ public class DonutChartData {
 	/**
 	 * Value which is displayed in the chart
 	 */
-	private int value;
+	private Long value;
 	
-	public DonutChartData(String label, int value) {
+	public DonutChartData(String label, Long value) {
 		this.label = label;
 		this.value = value;
 	}
@@ -29,11 +29,11 @@ public class DonutChartData {
 		this.label = label;
 	}
 
-	public int getValue() {
+	public Long getValue() {
 		return value;
 	}
 
-	public void setValue(int value) {
+	public void setValue(Long value) {
 		this.value = value;
 	}
 	
