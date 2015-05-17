@@ -1,3 +1,4 @@
+<img src="http://go.sap.com/_jcr_content/parHeader/header/image.adapt.tablet.png/1431534986128.png" />
 ## Уеб приложение за управление на задачите по даден софтуерен проект
 
 ### Въведение
