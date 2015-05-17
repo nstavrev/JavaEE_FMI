@@ -120,6 +120,8 @@
 
 	<script type="text/javascript">
 			var project = {};
+			var projectId;
+			
 			function loadProjects(){
 				$.ajax({
 					url : "rest/project/all",
@@ -147,7 +149,6 @@
 					$( "#members" ).autocomplete({
 						source: arr,
 						select : function(event, item) {
-							project.members.push(item.item.object);
 							addMember(item.item.object);
 							refreshMembers();
 						},
@@ -163,6 +164,7 @@
 			});
 		
 		function getProjectInfo(id) {
+			projectId = id;
 			$.ajax({
 				url : "rest/project/id/" + id,
 				type : "GET",
@@ -208,15 +210,13 @@
 		}
 		
 		function addMember(member) {
-			console.log(project.id);
-			console.log(member);
 			 $.ajax({
 				url : "rest/project/newProjectMember/" + project.id,
 				type : "POST",
 				contentType: "application/json;charset=UTF-8",
 				data : JSON.stringify(member),
 				success : function(data){
-					console.log(data);
+					getProjectInfo(projectId);
 				}
 			}); 
 		}

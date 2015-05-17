@@ -13,6 +13,9 @@ import bg.uni_sofia.fmi.javaee.model.Issue;
 import bg.uni_sofia.fmi.javaee.model.IssueStatus;
 import bg.uni_sofia.fmi.javaee.utils.DonutChartData;
 
+/**
+ * Issue Data Access Object - This class provides CRUD operations related to Issues
+ */
 @Singleton
 public class IssueDao {
 

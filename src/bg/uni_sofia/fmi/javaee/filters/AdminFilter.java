@@ -17,7 +17,7 @@ import bg.uni_sofia.fmi.javaee.model.Role;
 import bg.uni_sofia.fmi.javaee.services.UserContext;
 
 /**
- * Servlet Filter implementation class AdminFilter
+ * Checks if logged user has an admin rights
  */
 @WebFilter(urlPatterns = { "/rest/admin/*", "/users.jsp", "/admin/*", "/register.html" })
 public class AdminFilter implements Filter {

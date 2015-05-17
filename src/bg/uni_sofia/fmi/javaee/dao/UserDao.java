@@ -1,5 +1,6 @@
 package bg.uni_sofia.fmi.javaee.dao;
 
+import java.security.MessageDigest;
 import java.util.List;
 
 import javax.ejb.Singleton;
@@ -12,6 +13,9 @@ import bg.uni_sofia.fmi.javaee.model.Role;
 import bg.uni_sofia.fmi.javaee.model.User;
 import bg.uni_sofia.fmi.javaee.services.UserContext;
 
+/**
+ * User Data Access Object - This class provides CRUD operations related to Users
+ */
 @Singleton
 public class UserDao {
 
@@ -34,6 +38,7 @@ public class UserDao {
 	}
 
 	public void addUser(User user) {
+		user.setPassword(this.getHashedPassword(user.getPassword()));
 		em.persist(user);
 	}
 
@@ -42,7 +47,7 @@ public class UserDao {
 		
 		TypedQuery<User> query = em.createQuery(textQuery, User.class)
 				.setParameter("userName", userName)
-				.setParameter("password", password);
+				.setParameter("password", this.getHashedPassword(password));
 		return queryUser(query) != null;
 	}
 	
@@ -73,4 +78,14 @@ public class UserDao {
 			return null;
 		}
 	}
+	
+	private String getHashedPassword(String password) {
+        try {
+            MessageDigest mda = MessageDigest.getInstance("SHA-512");
+            password = new String(mda.digest(password.getBytes()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return password;
+    }
 }

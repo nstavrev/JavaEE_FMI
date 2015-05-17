@@ -12,6 +12,9 @@ import javax.persistence.TypedQuery;
 import bg.uni_sofia.fmi.javaee.model.Project;
 import bg.uni_sofia.fmi.javaee.model.User;
 
+/**
+ * Project Data Access Object - This class provides CRUD operations related to Projects
+ */
 @Singleton
 public class ProjectDao {
 	
@@ -34,10 +37,13 @@ public class ProjectDao {
 	
 	public void addMemberInProject(User member, Project project) {
 		User userFromDB = userDao.findUserById(member.getId());
-		project.getMembers().add(userFromDB);
-		em.merge(project); 
-		userFromDB.getProjects().add(project);
-		em.merge(userFromDB); 
+		List<User> members = project.getMembers();
+		if(!members.contains(userFromDB)){
+			members.add(userFromDB);
+			em.merge(project); 
+			userFromDB.getProjects().add(project);
+			em.merge(userFromDB); 
+		}
 	}
 	
 	public void removeMemberFromProject(User member, Long projectId) {

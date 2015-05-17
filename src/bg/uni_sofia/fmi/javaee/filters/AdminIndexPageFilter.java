@@ -17,7 +17,7 @@ import bg.uni_sofia.fmi.javaee.model.User;
 import bg.uni_sofia.fmi.javaee.services.UserContext;
 
 /**
- * Servlet Filter implementation class AdminIndexPageFilter
+ * Redirects Administrators from index.jsp to admin.jsp
  */
 @WebFilter(urlPatterns = "/index.jsp")
 public class AdminIndexPageFilter implements Filter {
