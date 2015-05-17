@@ -33,6 +33,7 @@ public class User implements Serializable {
 	private String fullName;
 	
 	@ManyToOne
+	@JoinColumn(name = "role_id", nullable = false)
 	private Role role;
 	
 	@OneToMany(mappedBy = "assignee", cascade=CascadeType.REMOVE)

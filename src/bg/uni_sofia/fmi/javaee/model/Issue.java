@@ -39,19 +39,23 @@ public class Issue implements Serializable {
 	private Date creationDate;
 	
 	@ManyToOne
+	@JoinColumn(name = "status_id", nullable = false)
 	private IssueStatus status;
 	
 	@ManyToOne
+	@JoinColumn(name = "project_id", nullable = false)
 	private Project project;
 	
 	@ManyToOne
+	@JoinColumn(name = "assignee_id", nullable = false)
 	private User assignee;
 	
 	@ManyToOne
+	@JoinColumn(name = "reporter_id", nullable = false)
 	private User reporter;
 	
 	@OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)  
-	private List<Comment> comments;
+	private List<Comment> comments; 
  
 	public Long getId() {
 		return id;

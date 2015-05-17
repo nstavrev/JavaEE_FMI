@@ -30,9 +30,11 @@ public class Comment implements Serializable {
 	private Date creationDate;
 	
 	@ManyToOne
+	@JoinColumn(name = "creator_id", nullable = false)
 	private User creator;
 	
 	@ManyToOne
+	@JoinColumn(name = "issue_id", nullable = false)
 	private Issue issue;
 
 	public Long getId() {

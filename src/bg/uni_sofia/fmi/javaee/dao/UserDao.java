@@ -55,6 +55,10 @@ public class UserDao {
 		return em.find(User.class, id);
 	}
 	
+	public Role findRoleById(Long id){
+		return em.find(Role.class, id);
+	}
+	
 	public User findUserByName(String userName) {
         String textQuery = "select u from User u where u.userName = :userName";
         TypedQuery<User> query = em.createQuery(textQuery, User.class);

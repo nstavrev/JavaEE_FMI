@@ -80,7 +80,7 @@ public class IssueListener {
 		return sb.toString();
 	}
 	
-	/**
+	/** 
 	 * @param issue
 	 * @return - Text for the mail that is sent when an {@link Issue} has been updated
 	 */
@@ -92,7 +92,7 @@ public class IssueListener {
 		this.appendIssueDetails(issue, sb);
 		return sb.toString();
 	}
-	
+
 	private void appendIssueDetails(Issue issue, StringBuilder sb) {
 		sb.append("Title : " + issue.getTitle() + "\n");
 		sb.append("Description : " + issue.getDescription() + "\n");

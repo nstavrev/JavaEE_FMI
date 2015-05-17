@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -32,6 +33,7 @@ public class Project implements Serializable {
 	private String name;
 	
 	@OneToOne
+	@JoinColumn(name = "creator_id", nullable = false)
 	private User creator;
 	
 	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
