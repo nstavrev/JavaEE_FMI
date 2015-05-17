@@ -54,7 +54,7 @@
             <!-- /.row -->
              <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
 							<h4>My Issues</h4>
                         </div>
@@ -119,7 +119,7 @@
 	 	        	              {"mData" : "dueDate"},
 	 	        	              {"mData" : "status.name"},
 	 	        	              { "mRender" : function(data, a, row) {
-	 	        	            		  return "<a href='issue.jsp?id=" + row.id + "' class='btn btn-default'>Review</a>";
+	 	        	            		  return "<a href='issue.jsp?id=" + row.id + "' class='btn btn-primary'>Review</a>";
 	 	        	              	} 
 	 	        	              }
 	 	        	        ]

@@ -21,7 +21,7 @@ import bg.uni_sofia.fmi.javaee.model.User;
 
 @Stateless
 @Path("auth")
-public class AuthService {
+public class AuthManager {
 	
 	@EJB
 	private UserDao userDao;
@@ -40,7 +40,7 @@ public class AuthService {
 		}
 		
 		context.setCurrentUser(userDao.findUserByName(user.getUserName()));
-		
+
 		return Response.ok().build();
 	}
 	

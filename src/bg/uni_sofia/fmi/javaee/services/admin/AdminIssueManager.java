@@ -23,6 +23,7 @@ public class AdminIssueManager {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response editIssue(Issue issue) { 
 		issueDao.editIssue(issue);
+		
 		return Response.ok().build();
 	}
 }

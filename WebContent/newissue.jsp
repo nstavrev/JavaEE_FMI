@@ -56,12 +56,12 @@
                         <div class="panel-heading">
                         </div>
                         <div class="panel-body">
-                        	
+                        	<form id="newIssueForm" method="POST">
                             <div class="row">
                                 <div class="col-lg-12">
                                         <div class="form-group">
                                             <label>Title</label>
-                                            <input id="title" class="form-control" placeholder="Enter title">
+                                            <input id="title" name="title" class="form-control" placeholder="Enter title">
                                         </div>
                                         <div class="form-group">
                                         	<label>Description</label>
@@ -81,9 +81,10 @@
                                         		
                                         	</select>
                                         </div>
-                                        <button type="button" onclick="createIssue()" class="btn btn-default">Save</button>
+                                        <button type="submit" onclick="createIssue()" class="btn btn-default">Save</button>
                                 </div>
                             </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -101,7 +102,9 @@
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="js/plugins/metisMenu/metisMenu.min.js"></script>
-
+	
+	<!-- Jquery Validate -->
+	<script src="js/plugins/validate/jquery.validate.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="js/sb-admin-2.js"></script>
 	

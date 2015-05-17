@@ -6,6 +6,7 @@ import javax.ejb.Singleton;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -17,14 +18,13 @@ public class MailSender {
 	@Resource(name = "mail")
 	private Session session;
 	
-	public void sendMail(String to) throws MessagingException {
+	public void sendMail(String to, String subject, String text) throws MessagingException {
 		Message message = new MimeMessage(session);
         message.setFrom(new InternetAddress(USERNAME));
         message.setRecipients(Message.RecipientType.TO,
                 InternetAddress.parse(to)); 
-        message.setSubject("Testing Subject");
-        message.setText("Dear Mail Crawler,"
-                + "\n\n No spam to my email, please!");
-//        Transport.send(message); 
+        message.setSubject(subject);
+        message.setText(text);
+        Transport.send(message); 
 	} 
 }
