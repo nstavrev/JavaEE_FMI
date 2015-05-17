@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import bg.uni_sofia.fmi.javaee.dao.IssueListener;
+
 /**
  * Entity implementation class for Entity: Issue
  *
@@ -14,6 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "issues")
 @XmlRootElement
+@EntityListeners(IssueListener.class)
 public class Issue implements Serializable {
 
 	/**

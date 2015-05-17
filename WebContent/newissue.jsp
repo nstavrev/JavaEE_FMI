@@ -56,7 +56,7 @@
                         <div class="panel-heading">
                         </div>
                         <div class="panel-body">
-                        	<form id="newIssueForm" method="POST">
+                        	<form id="newIssueForm">
                             <div class="row">
                                 <div class="col-lg-12">
                                         <div class="form-group">
@@ -81,7 +81,7 @@
                                         		
                                         	</select>
                                         </div>
-                                        <button type="submit" onclick="createIssue()" class="btn btn-default">Save</button>
+                                        <button type="button" onclick="createIssue()" class="btn btn-default">Save</button>
                                 </div>
                             </div>
                             </form>
@@ -167,7 +167,12 @@
 			issue.title = $("#title").val();
 			issue.description = $("#description").val();
 			issue.dueDate = $("#dueDate").val();
-			issue.status.id = $("#statuses").val();
+			var statusId = $("#statuses").val();
+			issue.status = {
+				id : statusId,
+				name : $("#statuses option[value='" + statusId + "']").text()
+			}
+			
 			$.ajax({
 				url : "rest/issue/new",
 				type : "POST",
