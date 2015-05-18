@@ -57,3 +57,10 @@
 		4. Като хранилище за данните да се ползва база данни.
 	</li>
 </ul>
+
+###Инсталация
+<ul>
+	<li>
+		1. <a href="http://www.apache.org/dyn/closer.cgi/tomee/tomee-1.7.1/apache-tomee-1.7.1-jaxrs.zip">Tom EE</a>
+	</li>
+</ul>
