@@ -61,7 +61,7 @@
 ###Инсталация
 <ul>
 	<li>
-		<a href="http://www.apache.org/dyn/closer.cgi/tomee/tomee-1.7.1/apache-tomee-1.7.1-jaxrs.zip" target="_blank">Tom EE</a>
+		<a href="http://www.apache.org/dyn/closer.cgi/tomee/tomee-1.7.1/apache-tomee-1.7.1-jaxrs.zip" target="_blank">TomEE</a>
 	</li>
 	<li>
 		<a href="https://mobiarch.wordpress.com/2013/06/13/sending-e-mail-using-gmail-smtp-server-and-tomee-1-5-2/" target="_blank">Mail Config</a>
