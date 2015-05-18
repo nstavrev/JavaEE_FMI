@@ -43,24 +43,32 @@
 ###Изисквания към имплементацията.
 <ul>
 	<li>
-		1. Приложението да работи в Java EE среда
+		Приложението да работи в Java EE среда
 	</li>
 	<li>
-		2. Да се ползва Java уеб графичен потребителски интерфейс
+		Да се ползва Java уеб графичен потребителски интерфейс
 	</li>
 	<li>	
-		3. Потребителите трябва да могат да достъпват системата през логин панел. На базата
+		Потребителите трябва да могат да достъпват системата през логин панел. На базата
 		на ролята на потребителя трябва да имат следните права: Потребители,
 		Администратори.
 	</li>	
 	<li>
-		4. Като хранилище за данните да се ползва база данни.
+		Като хранилище за данните да се ползва база данни.
 	</li>
 </ul>
 
 ###Инсталация
 <ul>
 	<li>
-		1. <a href="http://www.apache.org/dyn/closer.cgi/tomee/tomee-1.7.1/apache-tomee-1.7.1-jaxrs.zip">Tom EE</a>
+		<a href="http://www.apache.org/dyn/closer.cgi/tomee/tomee-1.7.1/apache-tomee-1.7.1-jaxrs.zip">Tom EE</a>
+	</li>
+	<li>
+		<a href="https://mobiarch.wordpress.com/2013/06/13/sending-e-mail-using-gmail-smtp-server-and-tomee-1-5-2/">Mail Config</a>
+	</li>
+	<li>
+		<a href="http://stackoverflow.com/questions/23581863/how-to-resolve-a-classloader-related-java-lang-linkageerror-when-sending-email">
+		system.properties
+		</a>
 	</li>
 </ul>
