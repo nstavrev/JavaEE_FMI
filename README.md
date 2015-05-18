@@ -61,13 +61,13 @@
 ###Инсталация
 <ul>
 	<li>
-		<a href="http://www.apache.org/dyn/closer.cgi/tomee/tomee-1.7.1/apache-tomee-1.7.1-jaxrs.zip">Tom EE</a>
+		<a href="http://www.apache.org/dyn/closer.cgi/tomee/tomee-1.7.1/apache-tomee-1.7.1-jaxrs.zip" target="_blank">Tom EE</a>
 	</li>
 	<li>
-		<a href="https://mobiarch.wordpress.com/2013/06/13/sending-e-mail-using-gmail-smtp-server-and-tomee-1-5-2/">Mail Config</a>
+		<a href="https://mobiarch.wordpress.com/2013/06/13/sending-e-mail-using-gmail-smtp-server-and-tomee-1-5-2/" target="_blank">Mail Config</a>
 	</li>
 	<li>
-		<a href="http://stackoverflow.com/questions/23581863/how-to-resolve-a-classloader-related-java-lang-linkageerror-when-sending-email">
+		<a href="http://stackoverflow.com/questions/23581863/how-to-resolve-a-classloader-related-java-lang-linkageerror-when-sending-email" target="_blank">
 		system.properties
 		</a>
 	</li>
