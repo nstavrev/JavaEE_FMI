@@ -1,9 +1,11 @@
 package bg.uni_sofia.fmi.javaee.dao;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Singleton;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -11,6 +13,7 @@ import javax.persistence.TypedQuery;
 import bg.uni_sofia.fmi.javaee.model.Comment;
 import bg.uni_sofia.fmi.javaee.model.Issue;
 import bg.uni_sofia.fmi.javaee.model.IssueStatus;
+import bg.uni_sofia.fmi.javaee.services.UserContext;
 import bg.uni_sofia.fmi.javaee.utils.DonutChartData;
 
 /**
@@ -21,6 +24,9 @@ public class IssueDao {
 
 	@PersistenceContext
 	private EntityManager em;
+	
+	@Inject
+	private UserContext context;
 	
 	public Issue findIssueById(Long id) {
 		return em.find(Issue.class, id);
@@ -59,6 +65,8 @@ public class IssueDao {
 	}
 	
 	public void createNewIssue(Issue issue) {
+		issue.setReporter(context.getCurrentUser());
+		issue.setCreationDate(new Date()); 
 		em.persist(issue);
 	}
 	

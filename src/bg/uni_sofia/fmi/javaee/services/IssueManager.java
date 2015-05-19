@@ -70,18 +70,16 @@ public class IssueManager {
 	@Path("new")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createNewIssue(Issue newIssue) {
-//		long initialIssues = issueDao.findUserIssuesNumberByStatus(newIssue
-//				.getAssignee().getId(), IssueStatus.INITIAL);
-//		long ongoingIssues = issueDao.findUserIssuesNumberByStatus(newIssue
-//				.getAssignee().getId(), IssueStatus.ONGOING);
-//		
-//		newIssue.setReporter(context.getCurrentUser());
-//		newIssue.setCreationDate(new Date()); 
+		long initialIssues = issueDao.findUserIssuesNumberByStatus(newIssue
+				.getAssignee().getId(), IssueStatus.INITIAL);
+		long ongoingIssues = issueDao.findUserIssuesNumberByStatus(newIssue
+				.getAssignee().getId(), IssueStatus.ONGOING);
+		
 		issueDao.createNewIssue(newIssue); 
 		
-//		if(initialIssues > 2 || ongoingIssues > 2) { 
-//			return Response.ok().entity("Warning.This user has more than 2 ongoing or inital issues").build();
-//		}
+		if(initialIssues > 2 || ongoingIssues > 2) { 
+			return Response.ok().entity("Warning.This user has more than 2 ongoing or inital issues").build();
+		}
 		
 		return Response.ok().build();
 	}

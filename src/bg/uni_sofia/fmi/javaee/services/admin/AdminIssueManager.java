@@ -9,6 +9,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import bg.uni_sofia.fmi.javaee.dao.IssueDao;
+import bg.uni_sofia.fmi.javaee.model.AdminIssue;
 import bg.uni_sofia.fmi.javaee.model.Issue;
 
 @Stateless
@@ -24,6 +25,14 @@ public class AdminIssueManager {
 	public Response editIssue(Issue issue) { 
 		issueDao.editIssue(issue);
 		
+		return Response.ok().build();
+	}
+	
+	@POST
+	@Path("new")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response createIssue(AdminIssue issue){
+		issueDao.createNewIssue(issue);
 		return Response.ok().build();
 	}
 }

@@ -134,7 +134,9 @@
     <!-- Custom Theme JavaScript -->
     <script src="js/sb-admin-2.js"></script>
 	
-	<script src="js/functions.js"></script>
+	<script src="js/user.js"></script>
+	
+	<script src="js/issue.js"></script>
 	
 	<script type="text/javascript">
 	
@@ -181,6 +183,7 @@
 						$("#description").html(data.description);
 						$("#dueDate").html(data.dueDate);
 						$("#assignee").html(data.assignee.userName);
+						$("#statuses").val(data.status.id);
 					});
 				}
 				

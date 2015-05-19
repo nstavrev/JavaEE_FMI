@@ -1,13 +1,3 @@
-function getUserRole(callback) {
-	$.ajax({
-		url : "rest/user/role",
-		type : "GET",
-		dataType : "json",
-		success : function(data) {
-			callback(data);
-		}
-	});
-}
 
 function getIssueById(id, callback){
 	$.ajax({
@@ -16,7 +6,7 @@ function getIssueById(id, callback){
 		success : function(data){
 			callback(data);
 		}
-	});
+	}); 
 }
 
 function loadIssueDataForAdmin(callback) {

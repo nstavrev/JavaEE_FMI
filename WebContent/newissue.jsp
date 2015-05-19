@@ -96,7 +96,7 @@
     <!-- jQuery Version 1.11.0 -->
     <script src="js/jquery-1.11.0.js"></script>
     
-	<script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
 
@@ -170,7 +170,8 @@
 			var statusId = $("#statuses").val();
 			issue.status = {
 				id : statusId,
-				name : $("#statuses option[value='" + statusId + "']").text()
+				name : $("#statuses option[value='" + statusId + "']").text(),
+				important : true
 			}
 			
 			$.ajax({
