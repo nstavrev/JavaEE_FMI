@@ -24,7 +24,7 @@ public class MailSender {
     	message.setRecipients(Message.RecipientType.TO,
     			InternetAddress.parse(to)); 
 		message.setSubject(subject);
-		message.setText(text);
+		message.setText(text); 
 		Transport.send(message); 
 		System.out.println("E-mail sent to address " + to);
 		
