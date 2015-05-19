@@ -13,6 +13,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import bg.uni_sofia.fmi.javaee.model.Issue;
+import bg.uni_sofia.fmi.javaee.model.IssueStatus;
 import bg.uni_sofia.fmi.javaee.model.Role;
 import bg.uni_sofia.fmi.javaee.model.User;
 
@@ -25,11 +27,28 @@ public class DataInserter {
 	@EJB 
 	private UserDao userDao;
 	
+	@EJB
+	private IssueDao issueDao;
+	
 	@PersistenceContext
 	private EntityManager em;
 	
 	@PostConstruct
 	public void insert() {
+		List<Issue> statuses = issueDao.findAllIssues();
+		if(statuses == null || statuses.isEmpty()){
+			IssueStatus s1 = new IssueStatus();
+			s1.setName("Initial");
+			IssueStatus s2 = new IssueStatus();
+			s2.setName("On going");
+			IssueStatus s3 = new IssueStatus();
+			s1.setName("Completed");
+			em.persist(s1);
+			em.persist(s2);
+			em.persist(s3);
+		}
+		
+		
 		List<Role> roles = userDao.findAllRoles();
 		if(roles == null || roles.isEmpty()){
 			Role admin = new Role();
