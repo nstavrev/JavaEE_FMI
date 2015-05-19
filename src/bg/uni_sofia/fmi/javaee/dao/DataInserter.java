@@ -42,7 +42,8 @@ public class DataInserter {
 			IssueStatus s2 = new IssueStatus();
 			s2.setName("On going");
 			IssueStatus s3 = new IssueStatus();
-			s1.setName("Completed");
+			s3.setName("Completed");
+			
 			em.persist(s1);
 			em.persist(s2);
 			em.persist(s3);
