@@ -19,11 +19,12 @@ public class MailSender {
 	private Session session;
 	
 	public void sendMail(String to, String subject, String text) throws MessagingException {
+		MailSender that = this;
 		Runnable runnableSendMail = new Runnable() {
 			@Override
 			public void run() {
 		        try {
-		        	Message message = new MimeMessage(session);
+		        	Message message = new MimeMessage(that.session);
 		        	message.setFrom(new InternetAddress(USERNAME));
 		        	message.setRecipients(Message.RecipientType.TO,
 		        			InternetAddress.parse(to)); 
