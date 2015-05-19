@@ -19,26 +19,14 @@ public class MailSender {
 	private Session session;
 	
 	public void sendMail(String to, String subject, String text) throws MessagingException {
-		MailSender that = this;
-		Runnable runnableSendMail = new Runnable() {
-			@Override
-			public void run() {
-		        try {
-		        	Message message = new MimeMessage(that.session);
-		        	message.setFrom(new InternetAddress(USERNAME));
-		        	message.setRecipients(Message.RecipientType.TO,
-		        			InternetAddress.parse(to)); 
-					message.setSubject(subject);
-					message.setText(text);
-					Transport.send(message); 
-					System.out.println("E-mail sent to address " + to);
-				} catch (MessagingException e) {
-					e.printStackTrace();
-				}
-			}
-		};
-		
-		new Thread(runnableSendMail).start();
+		Message message = new MimeMessage(session);
+    	message.setFrom(new InternetAddress(USERNAME));
+    	message.setRecipients(Message.RecipientType.TO,
+    			InternetAddress.parse(to)); 
+		message.setSubject(subject);
+		message.setText(text);
+		Transport.send(message); 
+		System.out.println("E-mail sent to address " + to);
 		
 	} 
 }
