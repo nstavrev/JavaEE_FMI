@@ -2,7 +2,6 @@ package bg.uni_sofia.fmi.javaee.mail;
 
 
 import javax.annotation.Resource;
-import javax.ejb.Singleton;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -18,17 +17,6 @@ public abstract class MailSender<T> {
 	@Resource(name = "mail")
 	private Session session;
 	
-	public void sendMail(String to, String subject, String text) throws MessagingException {
-//		Message message = new MimeMessage(session);
-//    	message.setFrom(new InternetAddress(USERNAME));
-//    	message.setRecipients(Message.RecipientType.TO,
-//    			InternetAddress.parse(to)); 
-//		message.setSubject(subject);
-//		message.setText(text); 
-//		Transport.send(message); 
-//		System.out.println("E-mail sent to address " + to);
-	} 
-	
 	public void sendMailForPersist(String to, String subject, T t) throws AddressException, MessagingException {
 		String text = this.getMailTextForPersist(t);
 		send(to, subject, text);
@@ -42,6 +30,7 @@ public abstract class MailSender<T> {
 	private void send(String to, String subject, String text)
 			throws MessagingException, AddressException {
 		Message message = createMessage(to, subject, text); 
+		System.out.println("hopa abss");
 		Transport.send(message);
 	}
 

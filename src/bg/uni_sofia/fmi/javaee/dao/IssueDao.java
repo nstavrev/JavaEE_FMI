@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
+import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import bg.uni_sofia.fmi.javaee.mail.IssueMailSender;
 import bg.uni_sofia.fmi.javaee.model.Comment;
 import bg.uni_sofia.fmi.javaee.model.Issue;
 import bg.uni_sofia.fmi.javaee.model.IssueHistory;
@@ -29,7 +32,11 @@ public class IssueDao {
 	@Inject
 	private UserContext context;
 	
+	@EJB
+	private IssueMailSender mailSender;
+	
 	public Issue findIssueById(Long id) {
+		
 		return em.find(Issue.class, id);
 	}
 	
@@ -69,6 +76,11 @@ public class IssueDao {
 		issue.setReporter(context.getCurrentUser());
 		issue.setCreationDate(new Date()); 
 		em.persist(issue);
+		try {
+			this.mailSender.sendMailForPersist(issue.getAssignee().getEmail(), "New Issue", issue);
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void editIssue(Issue issue){
@@ -77,15 +89,12 @@ public class IssueDao {
 		em.merge(issue);
 		if(saveHistory){
 			this.saveHistory(issue);
+			try {
+				this.mailSender.sendMailForUpdate(issue.getAssignee().getEmail(), "Issue Updates", issue);
+			} catch (MessagingException e) {
+				e.printStackTrace();
+			}
 		}
-	}
-	
-	private void saveHistory(Issue issue){ 
-		IssueHistory history = new IssueHistory(issue);
-		history.setEditor(context.getCurrentUser());
-		history.setUpdateDate(new Date());
-		System.out.println("history M ??/");
-		em.persist(history); 
 	}
 	
 	public List<DonutChartData> getDonutDataForUserIssues() {
@@ -122,6 +131,14 @@ public class IssueDao {
 		TypedQuery<Long> query = em.createQuery(textQuery, Long.class);
 		query.setParameter("status", status);
 		return query.getSingleResult();
+	}
+	
+	private void saveHistory(Issue issue){ 
+		IssueHistory history = new IssueHistory(issue);
+		history.setEditor(context.getCurrentUser());
+		history.setUpdateDate(new Date());
+		System.out.println("history M ??/");
+		em.persist(history); 
 	}
 	
 }

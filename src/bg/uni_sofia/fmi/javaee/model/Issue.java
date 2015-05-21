@@ -6,15 +6,11 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import bg.uni_sofia.fmi.javaee.dao.IssueListener;
-
-/**
+/** 
  * Entity implementation class for Entity: Issue
- *
  */
 @Entity
 @Table(name = "issues")
-@EntityListeners(IssueListener.class)
 public class Issue implements Serializable {
 
 	/**
