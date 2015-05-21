@@ -27,7 +27,7 @@ public class Comment implements Serializable {
 	private String content;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date creationDate;
+	private Date creationDate = new Date();
 	
 	@ManyToOne
 	@JoinColumn(name = "creator_id", nullable = false)

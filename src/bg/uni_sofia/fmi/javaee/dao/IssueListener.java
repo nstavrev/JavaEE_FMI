@@ -2,6 +2,8 @@ package bg.uni_sofia.fmi.javaee.dao;
 
 import java.util.List;
 
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.mail.MessagingException;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -17,7 +19,7 @@ import bg.uni_sofia.fmi.javaee.model.Issue;
  * 
  * @see Issue
  */
-public class IssueListener {
+public class IssueListener { 
 	
 	/**
 	 * Used for lookup {@link MailSender}
@@ -28,9 +30,12 @@ public class IssueListener {
 	 * {@link MailSender} JNDI Address
 	 */
 	private String mailSenderLookup = "java:global/JavaEE_FMI/MailSender";
-
+	
+	private String issueDaoLookup = "java:global/JavaEE_FMI/IssueDao";
+	
 	public IssueListener() {
 		try {
+			
 			context = new InitialContext();
 		} catch (NamingException e) {
 			e.printStackTrace();
@@ -44,7 +49,11 @@ public class IssueListener {
 	 */
 	@PostPersist
 	public void onPersist(Issue issue) {
-		this.sendMail(issue, "New issue assigned to you", this.getMailTextForPersist(issue));
+		try {
+			this.sendMail(issue, "New issue assigned to you", this.getMailTextForPersist(issue));
+		} catch (MessagingException | NamingException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -52,19 +61,21 @@ public class IssueListener {
 	 */
 	@PostUpdate
 	public void onUpdate(Issue issue) {
-		this.sendMail(issue, "Issue Changes", this.getMailTextForUpdate(issue));
+		try {
+			this.sendMail(issue, "Issue Changes", this.getMailTextForUpdate(issue));
+		} catch (NamingException | MessagingException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
 	 * Sends mail to {@link Issue} assignee
+	 * @throws MessagingException 
+	 * @throws NamingException 
 	 */
-	private void sendMail(Issue issue, String subject, String text) {
-		try {
-			MailSender sender = (MailSender) context.lookup(this.mailSenderLookup);
-			sender.sendMail(issue.getAssignee().getEmail(), subject, text);
-		} catch (MessagingException | NamingException e) {
-			e.printStackTrace();
-		}
+	private void sendMail(Issue issue, String subject, String text) throws MessagingException, NamingException {
+		MailSender sender = (MailSender) context.lookup(this.mailSenderLookup);
+		sender.sendMail(issue.getAssignee().getEmail(), subject, text);
 	}
 	
 	/**

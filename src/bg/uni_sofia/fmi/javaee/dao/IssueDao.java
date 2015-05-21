@@ -12,6 +12,7 @@ import javax.persistence.TypedQuery;
 
 import bg.uni_sofia.fmi.javaee.model.Comment;
 import bg.uni_sofia.fmi.javaee.model.Issue;
+import bg.uni_sofia.fmi.javaee.model.IssueHistory;
 import bg.uni_sofia.fmi.javaee.model.IssueStatus;
 import bg.uni_sofia.fmi.javaee.services.UserContext;
 import bg.uni_sofia.fmi.javaee.utils.DonutChartData;
@@ -71,7 +72,20 @@ public class IssueDao {
 	}
 	
 	public void editIssue(Issue issue){
+		Issue oldIssue = this.findIssueById(issue.getId());
+		boolean saveHistory = !oldIssue.equals(issue);
 		em.merge(issue);
+		if(saveHistory){
+			this.saveHistory(issue);
+		}
+	}
+	
+	private void saveHistory(Issue issue){ 
+		IssueHistory history = new IssueHistory(issue);
+		history.setEditor(context.getCurrentUser());
+		history.setUpdateDate(new Date());
+		System.out.println("history M ??/");
+		em.persist(history); 
 	}
 	
 	public List<DonutChartData> getDonutDataForUserIssues() {
