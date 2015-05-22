@@ -82,4 +82,8 @@ public class Project implements Serializable {
 		this.members = members;
 	}
 	
+	public boolean hasMembers() {
+		return this.members != null && !this.members.isEmpty();
+	}
+	
 }

@@ -5,10 +5,14 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import bg.uni_sofia.fmi.javaee.event.NewProjectEvent;
+import bg.uni_sofia.fmi.javaee.event.ProjectEvent;
 import bg.uni_sofia.fmi.javaee.model.Project;
 import bg.uni_sofia.fmi.javaee.model.User;
 
@@ -24,15 +28,28 @@ public class ProjectDao {
 	@EJB
 	private UserDao userDao;
 	
+	@Inject
+	private Event<NewProjectEvent> newProjectEvent;
+	
+	@Inject 
+	private Event<ProjectEvent> projectEvent;
+	
 	public void createProject(Project project){
 		em.persist(project);
-		if(project.getMembers() != null){
+		if (project.hasMembers()) {
 			List<User> members = new ArrayList<User>(project.getMembers());
-			//ConcurrentModification Exception
+			// ConcurrentModification Exception
 			for (User member : members) {
 				this.addMemberInProject(member, project);
 			}
 		}
+		
+		newProjectEvent.fire(new NewProjectEvent(project));
+	}
+	
+	public void editProject(Project project){
+		em.merge(project);
+		projectEvent.fire(new ProjectEvent(project));
 	}
 	
 	public void addMemberInProject(User member, Project project) {
@@ -42,7 +59,7 @@ public class ProjectDao {
 			members.add(userFromDB);
 			em.merge(project); 
 			userFromDB.getProjects().add(project);
-			em.merge(userFromDB); 
+			em.merge(userFromDB);
 		}
 	}
 	

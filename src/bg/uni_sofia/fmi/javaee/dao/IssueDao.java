@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.ejb.EJB;
 import javax.ejb.Singleton;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
-import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import bg.uni_sofia.fmi.javaee.mail.IssueMailSender;
+import bg.uni_sofia.fmi.javaee.event.IssueEvent;
+import bg.uni_sofia.fmi.javaee.event.NewIssueEvent;
 import bg.uni_sofia.fmi.javaee.model.Comment;
 import bg.uni_sofia.fmi.javaee.model.Issue;
 import bg.uni_sofia.fmi.javaee.model.IssueHistory;
@@ -32,8 +32,11 @@ public class IssueDao {
 	@Inject
 	private UserContext context;
 	
-	@EJB
-	private IssueMailSender mailSender;
+	@Inject
+	private Event<NewIssueEvent> newIssueEvent;
+	
+	@Inject
+	private Event<IssueEvent> issueEvent;
 	
 	public Issue findIssueById(Long id) {
 		
@@ -76,11 +79,7 @@ public class IssueDao {
 		issue.setReporter(context.getCurrentUser());
 		issue.setCreationDate(new Date()); 
 		em.persist(issue);
-		try {
-			this.mailSender.sendMailForPersist(issue.getAssignee().getEmail(), "New Issue", issue);
-		} catch (MessagingException e) {
-			e.printStackTrace();
-		}
+		newIssueEvent.fire(new NewIssueEvent(issue));
 	}
 	
 	public void editIssue(Issue issue){
@@ -89,11 +88,7 @@ public class IssueDao {
 		em.merge(issue);
 		if(saveHistory){
 			this.saveHistory(issue);
-			try {
-				this.mailSender.sendMailForUpdate(issue.getAssignee().getEmail(), "Issue Updates", issue);
-			} catch (MessagingException e) {
-				e.printStackTrace();
-			}
+			issueEvent.fire(new IssueEvent(issue));
 		}
 	}
 	
@@ -137,7 +132,6 @@ public class IssueDao {
 		IssueHistory history = new IssueHistory(issue);
 		history.setEditor(context.getCurrentUser());
 		history.setUpdateDate(new Date());
-		System.out.println("history M ??/");
 		em.persist(history); 
 	}
 	
