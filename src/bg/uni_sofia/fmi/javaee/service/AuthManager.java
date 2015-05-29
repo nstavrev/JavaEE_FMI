@@ -1,4 +1,4 @@
-package bg.uni_sofia.fmi.javaee.services;
+package bg.uni_sofia.fmi.javaee.service;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;

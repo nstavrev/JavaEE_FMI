@@ -1,4 +1,4 @@
-package bg.uni_sofia.fmi.javaee.utils;
+package bg.uni_sofia.fmi.javaee.util;
 
 import java.util.List;
 

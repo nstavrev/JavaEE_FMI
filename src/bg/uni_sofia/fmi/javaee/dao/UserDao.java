@@ -4,14 +4,16 @@ import java.security.MessageDigest;
 import java.util.List;
 
 import javax.ejb.Singleton;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import bg.uni_sofia.fmi.javaee.event.NewUserEvent;
 import bg.uni_sofia.fmi.javaee.model.Role;
 import bg.uni_sofia.fmi.javaee.model.User;
-import bg.uni_sofia.fmi.javaee.services.UserContext;
+import bg.uni_sofia.fmi.javaee.service.UserContext;
 
 /**
  * User Data Access Object - This class provides CRUD operations related to Users
@@ -24,6 +26,9 @@ public class UserDao {
 	
 	@Inject
 	private UserContext userContext;
+	
+	@Inject
+	private Event<NewUserEvent> newUserEvent;
 	
 	public List<User> findAllUsers() {
 		String textQuery;
@@ -40,6 +45,7 @@ public class UserDao {
 	public void addUser(User user) {
 		user.setPassword(this.getHashedPassword(user.getPassword()));
 		em.persist(user);
+		newUserEvent.fire(new NewUserEvent(user));
 	}
 
 	public boolean validateCredentials(String userName, String password) {

@@ -1,4 +1,4 @@
-package bg.uni_sofia.fmi.javaee.services;
+package bg.uni_sofia.fmi.javaee.service;
 
 import java.util.Date;
 import java.util.List;
@@ -19,8 +19,8 @@ import bg.uni_sofia.fmi.javaee.dao.IssueDao;
 import bg.uni_sofia.fmi.javaee.model.Comment;
 import bg.uni_sofia.fmi.javaee.model.Issue;
 import bg.uni_sofia.fmi.javaee.model.IssueStatus;
-import bg.uni_sofia.fmi.javaee.utils.DataTableObject;
-import bg.uni_sofia.fmi.javaee.utils.DonutChartData;
+import bg.uni_sofia.fmi.javaee.util.DataTableObject;
+import bg.uni_sofia.fmi.javaee.util.DonutChartData;
 
 @Stateless
 @Path("issue")

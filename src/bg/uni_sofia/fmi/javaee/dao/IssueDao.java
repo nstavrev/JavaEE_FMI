@@ -17,8 +17,8 @@ import bg.uni_sofia.fmi.javaee.model.Comment;
 import bg.uni_sofia.fmi.javaee.model.Issue;
 import bg.uni_sofia.fmi.javaee.model.IssueHistory;
 import bg.uni_sofia.fmi.javaee.model.IssueStatus;
-import bg.uni_sofia.fmi.javaee.services.UserContext;
-import bg.uni_sofia.fmi.javaee.utils.DonutChartData;
+import bg.uni_sofia.fmi.javaee.service.UserContext;
+import bg.uni_sofia.fmi.javaee.util.DonutChartData;
 
 /**
  * Issue Data Access Object - This class provides CRUD operations related to Issues

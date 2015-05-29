@@ -1,4 +1,4 @@
-package bg.uni_sofia.fmi.javaee.services.admin;
+package bg.uni_sofia.fmi.javaee.service.admin;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import javax.ws.rs.core.Response;
 import bg.uni_sofia.fmi.javaee.dao.UserDao;
 import bg.uni_sofia.fmi.javaee.model.Role;
 import bg.uni_sofia.fmi.javaee.model.User;
-import bg.uni_sofia.fmi.javaee.utils.DataTableObject;
+import bg.uni_sofia.fmi.javaee.util.DataTableObject;
 
 @Stateless
 @Path("admin/user")

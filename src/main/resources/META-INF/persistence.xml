@@ -13,6 +13,7 @@
 	    <class>bg.uni_sofia.fmi.javaee.model.Comment</class>
 	    <class>bg.uni_sofia.fmi.javaee.model.Role</class>
 	    <class>bg.uni_sofia.fmi.javaee.model.AdminIssue</class>
+	    <class>bg.uni_sofia.fmi.javaee.model.IssueChange</class>
 	    
 	    <exclude-unlisted-classes>false</exclude-unlisted-classes>
 	    <properties>

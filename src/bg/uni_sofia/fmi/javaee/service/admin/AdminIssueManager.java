@@ -1,4 +1,4 @@
-package bg.uni_sofia.fmi.javaee.services.admin;
+package bg.uni_sofia.fmi.javaee.service.admin;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;

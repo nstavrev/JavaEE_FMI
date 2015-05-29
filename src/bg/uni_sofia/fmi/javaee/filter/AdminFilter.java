@@ -1,4 +1,4 @@
-package bg.uni_sofia.fmi.javaee.filters;
+package bg.uni_sofia.fmi.javaee.filter;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bg.uni_sofia.fmi.javaee.model.Role;
-import bg.uni_sofia.fmi.javaee.services.UserContext;
+import bg.uni_sofia.fmi.javaee.service.UserContext;
 
 /**
  * Checks if logged user has an admin rights

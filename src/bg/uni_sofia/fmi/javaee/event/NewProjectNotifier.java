@@ -14,7 +14,7 @@ public class NewProjectNotifier extends Notifier {
 		}
 	}
 	
-	public void sendMailCreator(@Observes NewProjectEvent event){
+	public void sendMailToCreator(@Observes NewProjectEvent event){
 		Project project = event.get();
 		String textForPersist = this.getMailTextForPersist(project);
 		notify(project.getCreator().getEmail(), "New Project", textForPersist);
