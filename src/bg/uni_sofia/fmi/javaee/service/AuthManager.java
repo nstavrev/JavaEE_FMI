@@ -35,21 +35,6 @@ public class AuthManager {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response login(User user, @Context HttpServletRequest request) {
 		try {
-			System.out.println("login");
-			request.login(user.getUserName(), userDao.getHashedPassword(user.getPassword()));
-			context.setCurrentUser(userDao.findUserByName(user.getUserName()));
-			return Response.ok().build();
-		} catch (ServletException e) {
-			return Response.status(HttpURLConnection.HTTP_UNAUTHORIZED).build();
-		} 
-	}
-	
-	@POST 
-	@Path("test")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response test(User user, @Context HttpServletRequest request){
-		try {
-			System.out.println("login");
 			request.login(user.getUserName(), userDao.getHashedPassword(user.getPassword()));
 			context.setCurrentUser(userDao.findUserByName(user.getUserName()));
 			return Response.ok().build();
