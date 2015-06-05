@@ -18,14 +18,15 @@ public class Notifier {
 	
 	private final static Logger LOGGER = Logger.getLogger(Notifier.class.getName()); 
 	
-	@Resource(name = "mail")
+	@Resource(name = "java:comp/env/ROOT/mail")
 	private Session session;
-	
+	 
 	protected void notify(String to, String subject, String text) {
 		new Thread(() -> {
 			try {
+				System.out.println("ava:comp/env/ROOT/mail");
 				Message message = createMessage(to, subject, text); 
-//				Transport.send(message);
+				Transport.send(message);
 				LOGGER.info("Email with text " + text + " was sent to " + to);
 			} catch (MessagingException e) {
 				e.printStackTrace();
