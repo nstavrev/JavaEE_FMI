@@ -4,6 +4,7 @@ $(function() {
 		url : contextPath + "/rest/issue/donutData",
 		type : "GET",
 		success : function(data){
+			console.log(data);
 			Morris.Donut({
 		        element: 'morris-donut-chart',
 		        data: data,

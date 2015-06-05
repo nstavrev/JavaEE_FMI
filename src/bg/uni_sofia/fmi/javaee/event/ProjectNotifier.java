@@ -16,8 +16,10 @@ public class ProjectNotifier extends Notifier {
 	
 	public void sendMailToMembers(@Observes ProjectEvent event){
 		Project project = event.get();
-		for (User member : project.getMembers()) {
-			this.sendMailToMember(member, project);
+		if(project.getMembers() != null){
+			for (User member : project.getMembers()) {
+				this.sendMailToMember(member, project);
+			}
 		}
 	}
 

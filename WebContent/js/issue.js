@@ -1,7 +1,7 @@
 
 function getIssueById(id, callback){
 	$.ajax({
-		url : "rest/issue/id/" + id,
+		url : "	../rest/issue/id/" + id,
 		type : "GET",
 		success : function(data){
 			callback(data);

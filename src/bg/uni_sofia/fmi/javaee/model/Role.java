@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Entity implementation class for Entity: UserRole
@@ -12,7 +11,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "roles")
-@XmlRootElement
 public class Role implements Serializable {
 
 	/**
@@ -26,7 +24,7 @@ public class Role implements Serializable {
 	
 	private String name;
 	
-	@OneToMany(mappedBy = "role", cascade = CascadeType.REMOVE)
+	@ManyToMany(mappedBy="roles")
 	private List<User> users;
 	
 	public Long getId() {

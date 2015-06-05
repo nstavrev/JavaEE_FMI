@@ -3,6 +3,8 @@ package bg.uni_sofia.fmi.javaee.service;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -32,9 +34,20 @@ public class IssueManager {
 	@Inject
 	private UserContext context;
 	
+	@POST
+	@Path("edit")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@RolesAllowed({ "Administrator" })
+	public Response editIssue(Issue issue) { 
+		issueDao.editIssue(issue);
+		
+		return Response.ok().build();
+	}
+	
 	@GET
 	@Path("all")
 	@Produces(MediaType.APPLICATION_JSON)
+	@PermitAll
 	public DataTableObject<Issue> getAllIssues() {
 		List<Issue> allIssues = issueDao.findAllIssues();
 		DataTableObject<Issue> dataTableObject = new DataTableObject<Issue>(allIssues);
@@ -44,6 +57,7 @@ public class IssueManager {
 	@GET
 	@Path("/all/{projectId}")
 	@Produces(MediaType.APPLICATION_JSON)
+	@PermitAll
 	public DataTableObject<Issue> getIssuesByProjectId(@PathParam("projectId") Long id){
 		List<Issue> projectIssues = issueDao.findIssuesByProjectId(id);
 	
@@ -54,6 +68,7 @@ public class IssueManager {
 	@GET
 	@Path("statuses")
 	@Produces(MediaType.APPLICATION_JSON)
+	@PermitAll
 	public List<IssueStatus> getAllIssueStatuses() { 
 		List<IssueStatus> statuses = issueDao.findAllStatuses();
 		return statuses;
@@ -62,6 +77,7 @@ public class IssueManager {
 	@GET
 	@Path("id/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
+	@PermitAll
 	public Issue getIssueById(@PathParam("id") Long id) {
 		return issueDao.findIssueById(id);
 	}
@@ -69,6 +85,7 @@ public class IssueManager {
 	@POST
 	@Path("new")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@PermitAll
 	public Response createNewIssue(Issue newIssue) {
 		long initialIssues = issueDao.findUserIssuesNumberByStatus(newIssue
 				.getAssignee().getId(), IssueStatus.INITIAL);
@@ -87,6 +104,7 @@ public class IssueManager {
 	@POST
 	@Path("changeStatus")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@PermitAll
 	public Response changeIssueStatus(Issue issue){
 		Issue issueFromDB = issueDao.findIssueById(issue.getId());
 		issueFromDB.setStatus(issue.getStatus()); 
@@ -96,6 +114,7 @@ public class IssueManager {
 	@POST
 	@Path("addComment/{issueId}")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@PermitAll
 	public Response addComment(Comment comment, @PathParam("issueId") Long issueId) {
 		Issue issue = issueDao.findIssueById(issueId);
 		comment.setIssue(issue);
@@ -109,6 +128,7 @@ public class IssueManager {
 	@GET
 	@Path("comments/{issueId}")
 	@Produces(MediaType.APPLICATION_JSON)
+	@PermitAll
 	public List<Comment> getCommentsByIssueId(@PathParam("issueId") Long issueId){
 		return issueDao.findIssueComments(issueId);
 	}
@@ -116,8 +136,16 @@ public class IssueManager {
 	@GET
 	@Path("donutData")
 	@Produces(MediaType.APPLICATION_JSON)
+	@PermitAll
 	public List<DonutChartData> getDonutData() {
 		return issueDao.getDonutDataForUserIssues();
 	}
 	
+	@GET
+	@Path("count")
+	@Produces(MediaType.APPLICATION_JSON)
+	@PermitAll
+	public Long countAllIssues(){
+		return issueDao.countAllIssues();
+	}
 }

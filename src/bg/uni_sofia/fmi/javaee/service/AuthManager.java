@@ -6,6 +6,7 @@ import java.net.HttpURLConnection;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -32,16 +33,29 @@ public class AuthManager {
 	@POST
 	@Path("login")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response login(User user) {
-		boolean isValid = userDao.validateCredentials(user.getUserName(), user.getPassword());
-		
-		if(!isValid) {
+	public Response login(User user, @Context HttpServletRequest request) {
+		try {
+			System.out.println("login");
+			request.login(user.getUserName(), userDao.getHashedPassword(user.getPassword()));
+			context.setCurrentUser(userDao.findUserByName(user.getUserName()));
+			return Response.ok().build();
+		} catch (ServletException e) {
 			return Response.status(HttpURLConnection.HTTP_UNAUTHORIZED).build();
-		}
-		
-		context.setCurrentUser(userDao.findUserByName(user.getUserName()));
-
-		return Response.ok().build();
+		} 
+	}
+	
+	@POST 
+	@Path("test")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response test(User user, @Context HttpServletRequest request){
+		try {
+			System.out.println("login");
+			request.login(user.getUserName(), userDao.getHashedPassword(user.getPassword()));
+			context.setCurrentUser(userDao.findUserByName(user.getUserName()));
+			return Response.ok().build();
+		} catch (ServletException e) {
+			return Response.status(HttpURLConnection.HTTP_UNAUTHORIZED).build();
+		} 
 	}
 	
 	@GET
@@ -49,7 +63,7 @@ public class AuthManager {
 	public void logout(@Context HttpServletRequest request, @Context HttpServletResponse response) {
 		request.getSession().invalidate();
 		try {
-			response.sendRedirect(request.getContextPath() + "/login.html");
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

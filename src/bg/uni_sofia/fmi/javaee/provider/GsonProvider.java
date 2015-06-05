@@ -17,15 +17,14 @@ import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 @Provider
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class GsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<T> {
 	
-	private Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
-	 
+	private Gson gson = GsonFactory.build();
+
 	@Override
 	public long getSize(T arg0, Class<?> arg1, Type arg2, Annotation[] arg3,
 			MediaType arg4) {

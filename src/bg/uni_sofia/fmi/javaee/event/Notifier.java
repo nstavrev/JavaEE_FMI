@@ -25,7 +25,7 @@ public class Notifier {
 		new Thread(() -> {
 			try {
 				Message message = createMessage(to, subject, text); 
-				Transport.send(message);
+//				Transport.send(message);
 				LOGGER.info("Email with text " + text + " was sent to " + to);
 			} catch (MessagingException e) {
 				e.printStackTrace();

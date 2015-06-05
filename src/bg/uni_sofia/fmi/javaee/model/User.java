@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Entity implementation class for Entity: User
@@ -12,7 +11,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
-@XmlRootElement
 public class User implements Serializable {
 
 	/**
@@ -24,17 +22,22 @@ public class User implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+	@Column(nullable = false)
 	private String userName;
 	
-	private String password;
+	@Column(nullable = false)
+	private String password;  
 	
 	private String email;
 	
 	private String fullName;
 	
-	@ManyToOne
-	@JoinColumn(name = "role_id", nullable = false)
-	private Role role;
+	@ManyToMany
+	  @JoinTable(
+	      name="users_roles",
+	      joinColumns={@JoinColumn(name="username", referencedColumnName="userName", nullable = false)},
+	      inverseJoinColumns={@JoinColumn(name="rolename", referencedColumnName="name", nullable = false)})
+	private List<Role> roles; 
 	
 	@OneToMany(mappedBy = "assignee", cascade=CascadeType.REMOVE)
 	private List<Issue> issues;
@@ -45,7 +48,7 @@ public class User implements Serializable {
 	@OneToMany(mappedBy = "creator", cascade = CascadeType.REMOVE) 
 	private List<Comment> comments;
 	
-	@ManyToMany 
+	@ManyToMany(cascade = CascadeType.ALL) 
 	private List<Project> projects;
 	
 	public Long getId() {
@@ -87,13 +90,13 @@ public class User implements Serializable {
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}
-
-	public Role getRole() {
-		return role;
+	
+	public List<Role> getRoles() {
+		return roles;
 	}
 
-	public void setRole(Role role) {
-		this.role = role;
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 
 	public List<Issue> getIssues() {

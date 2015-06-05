@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Entity implementation class for Entity: Comment
@@ -12,7 +11,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "comments")
-@XmlRootElement
 public class Comment implements Serializable {
 
 	/**
@@ -24,10 +22,12 @@ public class Comment implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+	@Column(nullable = false)
 	private String content;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date creationDate = new Date();
+	@Column(nullable = false)
+	private Date creationDate;
 	
 	@ManyToOne
 	@JoinColumn(name = "creator_id", nullable = false)

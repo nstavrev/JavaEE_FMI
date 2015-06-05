@@ -121,6 +121,12 @@ public class IssueDao {
 		return query.getSingleResult();
 	}
 	
+	public Long countAllIssues() {
+		String textQuery = "select count(issue.id) from Issue issue";
+		TypedQuery<Long> query = em.createQuery(textQuery, Long.class);
+		return query.getSingleResult();
+	}
+	
 	private Long findIssuesNumberByStatus(IssueStatus status) {
 		String textQuery = "select count(issue.id) from Issue issue where issue.status =:status";
 		TypedQuery<Long> query = em.createQuery(textQuery, Long.class);

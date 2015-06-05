@@ -1,6 +1,5 @@
 package bg.uni_sofia.fmi.javaee.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -36,14 +35,6 @@ public class ProjectDao {
 	
 	public void createProject(Project project){
 		em.persist(project);
-		if (project.hasMembers()) {
-			List<User> members = new ArrayList<User>(project.getMembers());
-			// ConcurrentModification Exception
-			for (User member : members) {
-				this.addMemberInProject(member, project);
-			}
-		}
-		
 		newProjectEvent.fire(new NewProjectEvent(project));
 	}
 	
@@ -60,6 +51,7 @@ public class ProjectDao {
 			em.merge(project); 
 			userFromDB.getProjects().add(project);
 			em.merge(userFromDB);
+			projectEvent.fire(new ProjectEvent(project));
 		}
 	}
 	
@@ -74,11 +66,17 @@ public class ProjectDao {
 		return em.merge(project);
 	}
 
-	public List<Project> getAllProjects() {
+	public List<Project> findAllProjects() {
 		String textQuery = "select p from Project p";
 		TypedQuery<Project> query = em.createQuery(textQuery, Project.class);
 		List<Project> projects = query.getResultList();
 		return projects;
+	}
+	
+	public Long countAllProjects() {
+		String textQuery = "select count(p.id) from Project p";
+		TypedQuery<Long> query = em.createQuery(textQuery, Long.class);
+		return query.getSingleResult();
 	}
 	
 	public Project findProjectById(Long id) {

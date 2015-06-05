@@ -6,10 +6,11 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="index.jsp">
+                	<img class="img-responsive" src="https://www.sapbi.com/wp-content/themes/sapbi/images/logo-SAP.png" />
                 </a>
             </div>
             <!-- /.navbar-header -->
-
+			
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">

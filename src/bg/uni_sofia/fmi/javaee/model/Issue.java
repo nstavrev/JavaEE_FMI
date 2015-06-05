@@ -159,7 +159,6 @@ public class Issue implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		System.out.println("eqq");
 		if (this == obj)
 			return true;
 		if (obj == null)

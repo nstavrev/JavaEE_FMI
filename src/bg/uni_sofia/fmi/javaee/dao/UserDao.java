@@ -13,7 +13,6 @@ import javax.persistence.TypedQuery;
 import bg.uni_sofia.fmi.javaee.event.NewUserEvent;
 import bg.uni_sofia.fmi.javaee.model.Role;
 import bg.uni_sofia.fmi.javaee.model.User;
-import bg.uni_sofia.fmi.javaee.service.UserContext;
 
 /**
  * User Data Access Object - This class provides CRUD operations related to Users
@@ -25,19 +24,10 @@ public class UserDao {
 	private EntityManager em;
 	
 	@Inject
-	private UserContext userContext;
-	
-	@Inject
 	private Event<NewUserEvent> newUserEvent;
 	
 	public List<User> findAllUsers() {
-		String textQuery;
-		if(userContext.getCurrentUser().getRole().getName().equals("Administrator")){
-			textQuery = "select u from User u";
-		} else {
-			textQuery = "select u from User u where u.role.name = 'User'";
-		}
-		System.out.println(textQuery);
+		String textQuery = "select u from User u";
 		return em.createQuery(textQuery, User.class)
 				.getResultList();
 	}
@@ -80,7 +70,13 @@ public class UserDao {
 	public void removeUserById(Long id) {
 		em.remove(this.findUserById(id));
 	}
-
+	
+	public Long countAllUsers() {
+		String textQuery = "select count(u.id) from User u";
+		TypedQuery<Long> query = em.createQuery(textQuery, Long.class);
+		return query.getSingleResult();
+	}
+	
 	private User queryUser(TypedQuery<User> query) {
 		try {
 			return query.getSingleResult();
@@ -89,9 +85,9 @@ public class UserDao {
 		}
 	}
 	
-	private String getHashedPassword(String password) {
+	public String getHashedPassword(String password) {
         try {
-            MessageDigest mda = MessageDigest.getInstance("SHA-512");
+            MessageDigest mda = MessageDigest.getInstance("MD5");
             password = new String(mda.digest(password.getBytes()));
         } catch (Exception e) {
             e.printStackTrace();
