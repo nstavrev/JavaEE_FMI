@@ -1,6 +1,7 @@
 package bg.uni_sofia.fmi.javaee.event;
 
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.Resource;
@@ -24,12 +25,11 @@ public class Notifier {
 	protected void notify(String to, String subject, String text) {
 		new Thread(() -> {
 			try {
-				System.out.println("ava:comp/env/ROOT/mail");
 				Message message = createMessage(to, subject, text); 
 				Transport.send(message);
 				LOGGER.info("Email with text " + text + " was sent to " + to);
 			} catch (MessagingException e) {
-				e.printStackTrace();
+				LOGGER.log(Level.SEVERE, e.getMessage());
 			}
 		}).start();
 	}
