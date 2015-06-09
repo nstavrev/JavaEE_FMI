@@ -76,7 +76,7 @@ public class ProjectManager {
 	@Path("all")
 	@Produces(MediaType.APPLICATION_JSON)
 	@PermitAll
-	public List<Project> getAllProjects() {
+	public List<Project> getAllProjects() { 
 		return projectDao.findAllProjects();
 	}
 	

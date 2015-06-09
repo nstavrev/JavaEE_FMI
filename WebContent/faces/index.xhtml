@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
+<f:view locale="#{language.localeCode}"> 
+<ui:include src="header.xhtml" />
+<body>
+	<div id="wrapper"> 
+		<ui:include src="navTopLinks.xhtml"/>
+		<div id="index-container" class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">
+						<h:outputText value="#{msg['msg.dashboard']}" />
+					</h1>
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<!-- /.row -->
+			<div class="row">
+				<div class="col-lg-3 col-md-6">
+					<div class="panel panel-green">
+						<div class="panel-heading">
+							<div class="row">
+								<div class="col-xs-3">
+									<i class="fa fa-tasks fa-5x"></i>
+								</div>
+								<div class="col-xs-9 text-right">
+									<div id="issues" class="huge"></div>
+									<div>
+										<h:outputText value="#{msg['msg.issues']}" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="panel-footer">
+							<a class="clearfix" href="issues.xhtml"> <span
+								class="pull-left">
+									<h:outputText value="#{msg['msg.viewall']}"/>
+								</span> <span class="pull-right"><i
+									class="fa fa-arrow-circle-right"></i></span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="panel panel-red">
+						<div class="panel-heading">
+							<div class="row">
+								<div class="col-xs-3">
+									<i class="fa fa-support fa-5x"></i>
+								</div>
+								<div class="col-xs-9 text-right">
+									<div id="projects" class="huge"></div>
+									<div>
+										<h:outputText value="#{msg['msg.projects']}" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="panel-footer">
+							<a class="clearfix" href="projects.xhtml"> <span
+								class="pull-left">
+									<h:outputText value="#{msg['msg.viewall']}"/>
+								</span> <span class="pull-right"><i
+									class="fa fa-arrow-circle-right"></i></span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<c:if test="#{userBean.isAdmin()}">
+				<div class="col-lg-3 col-md-6">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<div class="row">
+								<div class="col-xs-3">
+									<i class="fa fa-user fa-5x"></i>
+								</div>
+								<div class="col-xs-9 text-right">
+									<div id="users" class="huge"></div>
+									<div>
+										<h:outputText value="#{msg['msg.users']}" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="panel-footer">
+							<a class="clearfix" href="users.xhtml"> 
+							<span class="pull-left">
+								<h:outputText value="#{msg['msg.viewall']}"/>
+							</span> 
+							<span class="pull-right"><i
+									class="fa fa-arrow-circle-right"></i></span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="panel panel-yellow">
+						<div class="panel-heading">
+							<div class="row">
+								<div class="col-xs-3">
+									<i class="fa fa-user fa-5x"></i>
+								</div>
+							</div>
+						</div>
+						<div class="panel-footer">
+							<a class="clearfix" href="register.xhtml"> <span
+								class="pull-left">
+									<h:outputText value="#{msg['msg.newuser']}"/>
+								</span> 
+								<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+							</a>
+						</div>
+					</div>
+				</div>
+				</c:if>
+
+			</div>
+			<!-- /.row -->
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<i class="fa fa-bar-chart-o fa-fw"></i> 
+							<h:outputText value="#{msg['msg.issues']}" />
+						</div>
+						<div class="panel-body">
+							<div id="morris-donut-chart"></div>
+						</div>
+						<!-- /.panel-body -->
+					</div>
+				</div>
+				<!-- /.col-lg-4 -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /#page-wrapper -->
+	</div>
+	
+	<!-- jQuery Version 1.11.0 -->
+	<script src="#{request.contextPath}/js/jquery-1.11.0.js"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="#{request.contextPath}/js/bootstrap.min.js"></script>
+
+	<!-- Metis Menu Plugin JavaScript -->
+	<script src="#{request.contextPath}/js/plugins/metisMenu/metisMenu.min.js"></script>
+
+	<!-- Morris Charts JavaScript -->
+	<script src="#{request.contextPath}/js/plugins/morris/raphael.min.js"></script>
+	<script src="#{request.contextPath}/js/plugins/morris/morris.js"></script>
+	<script src="#{request.contextPath}/js/plugins/morris/morris-data.js"></script>
+
+	<!-- Custom Theme JavaScript -->
+	<script src="#{request.contextPath}/js/sb-admin-2.js"></script>
+	
+	<script type="text/javascript">
+		$.ajax({
+			url : "../rest/issue/count",
+			type : "GET",
+			success : function(data){
+				$("#issues").html(data);
+			}
+		});
+		
+		$.ajax({
+			url : "../rest/project/count",
+			type : "GET",
+			success : function(data){
+				$("#projects").html(data);
+			}
+		});
+	</script>
+	
+	<c:if test="#{userBean.isAdmin()}">
+	<script type="text/javascript">
+		$.ajax({
+			url : "../rest/user/count",
+			type : "GET",
+			success : function(data){
+				$("#users").html(data);
+			}
+		});
+	</script>
+	</c:if>
+	
+</body>
+</f:view>
+</html>

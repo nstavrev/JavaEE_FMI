@@ -59,7 +59,7 @@ public class UserDao {
         String textQuery = "select u from User u where u.userName = :userName";
         TypedQuery<User> query = em.createQuery(textQuery, User.class);
         query.setParameter("userName", userName);
-        return queryUser(query);
+        return queryUser(query); 
     }
 	
 	public List<Role> findAllRoles() {
@@ -79,7 +79,9 @@ public class UserDao {
 	
 	private User queryUser(TypedQuery<User> query) {
 		try {
-			return query.getSingleResult();
+			User user = query.getSingleResult();
+			user.getRoles();
+			return user;
 		} catch (Exception e) {
 			return null;
 		}

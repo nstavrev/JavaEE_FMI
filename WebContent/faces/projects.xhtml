@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<f:view locale="#{language.localeCode}">
+<ui:include src="header.xhtml" />
+<body>
+	<div id="wrapper">
+		<!-- Navigation -->
+		<ui:include src="navigation.xhtml" />
+		<div id="page-wrapper">
+			<div class="row">
+                <div class="col-lg-12">
+                    <h1 id="title" class="page-header">
+                    	<h:outputText value="#{msg['msg.projects']}" />
+                    </h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <c:if test="#{userBean.isAdmin()}">
+			<div class="row">
+				<div class="col-lg-12">
+					<a href="newproject.xhtml" class="btn btn-lg btn-warning pull-right">
+						<h:outputText value="#{msg['msg.createproject']}" />
+					</a>
+				</div>
+			</div>
+			<br/>
+            </c:if>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading"></div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label>
+											<h:outputText value="#{msg['msg.projectname']}" />
+										</label>
+									</div>
+								</div>
+							</div>
+							<div id="projects"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--  Modal  -->
+	<div class="modal fade" id="project" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true"></span>
+					</button>
+					<h4 class="modal-title" id="title"></h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<input id="members" class="form-control" placeholder="#{msg['msg.searchmembers']}"/>
+					</div>
+					<div class="form-group">
+						<h4> <h:outputText value="#{msg['msg.members']}" /></h4>
+					</div>
+					<div id="projectMembers">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						<h:outputText value="#{msg['msg.close']}" />
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Modal -->
+	<!-- /#wrapper -->
+
+	<!-- jQuery Version 1.11.0 -->
+	<script src="../js/jquery-1.11.0.js"></script>
+
+	<script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+	<!-- Bootstrap Core JavaScript -->
+	<script src="../js/bootstrap.min.js"></script>
+
+	<!-- Metis Menu Plugin JavaScript -->
+	<script src="../js/plugins/metisMenu/metisMenu.min.js"></script>
+
+	<!-- Custom Theme JavaScript -->
+	<script src="../js/sb-admin-2.js"></script>
+	
+	<script src="../js/user.js"></script>
+	
+	<script src="../js/projects.js"></script>
+</body>
+</f:view>
+</html>

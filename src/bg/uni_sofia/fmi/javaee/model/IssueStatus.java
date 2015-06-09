@@ -28,7 +28,7 @@ public class IssueStatus implements Serializable {
 	private String name;
 	
 	@OneToMany(mappedBy = "status", cascade = CascadeType.REMOVE)
-	public List<Issue> issues;
+	private List<Issue> issues;
 
 	public Long getId() {
 		return id;

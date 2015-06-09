@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<nav class="navbar navbar-default navbar-static-top" role="navigation"
+		style="margin-bottom: 0">
+		<ui:include src="navTopLinks.xhtml" />
+		<div class="navbar-default sidebar" role="navigation">
+			<div class="sidebar-nav navbar-collapse">
+				<ul class="nav" id="side-menu">
+					<li>
+						<a href="#{request.contextPath}/faces/index.xhtml">
+							<i class="fa fa-dashboard fa-fw"></i>
+							<h:outputText value="#{msg['msg.dashboard']}" />
+						</a>
+					</li>
+					<li><a href="#{request.contextPath}/faces/projects.xhtml"><i
+							class="fa fa-bar-chart-o fa-fw"></i> 
+							<h:outputText value="#{msg['msg.projects']}" />
+							</a></li>
+					<li>
+						<a href="#{request.contextPath}/faces/issues.xhtml"><i class="fa fa-table fa-fw"></i>
+							<h:outputText value="#{msg['msg.issues']}" />	
+						</a>
+					</li>
+				</ul>
+			</div>
+			<!-- /.sidebar-collapse -->
+		</div>
+		<!-- /.navbar-static-side -->
+	</nav>
+</ui:composition>

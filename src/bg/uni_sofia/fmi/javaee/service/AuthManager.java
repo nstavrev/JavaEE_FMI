@@ -35,6 +35,7 @@ public class AuthManager {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response login(User user, @Context HttpServletRequest request) {
 		try {
+			System.out.println("login");
 			request.login(user.getUserName(), userDao.getHashedPassword(user.getPassword()));
 			context.setCurrentUser(userDao.findUserByName(user.getUserName()));
 			return Response.ok().build();
@@ -48,7 +49,7 @@ public class AuthManager {
 	public void logout(@Context HttpServletRequest request, @Context HttpServletResponse response) {
 		request.getSession().invalidate();
 		try {
-			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			response.sendRedirect(request.getContextPath() + "/login.xhtml");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

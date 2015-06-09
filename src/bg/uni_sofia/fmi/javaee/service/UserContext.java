@@ -19,6 +19,9 @@ public class UserContext implements Serializable {
 	private User currentUser;
 
 	public User getCurrentUser() {
+		if(currentUser == null) {
+			System.out.println("Nqma nikoi tuk");
+		}
 		return userDao.findUserByName(currentUser.getUserName());
 	}
 
