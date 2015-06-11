@@ -7,6 +7,7 @@
 <ui:include src="faces/header.xhtml" />
 <body>
 		<div id="wrapper">
+			<ui:include src="faces/languages.xhtml" />
 			<div class="navbar-header">
 			</div>
 			<!-- /.navbar-header -->
@@ -15,7 +16,9 @@
 					<div class="col-md-4 col-md-offset-4">
 						<div class="login-panel panel panel-default">
 							<div class="panel-heading">
-								<h3 class="panel-title">Sign In</h3>
+								<h3 class="panel-title">
+									<h:outputText value="#{msg['msg.signin']}"/>
+								</h3>
 							</div>
 							<div class="panel-body">
 								<form role="form">
@@ -23,14 +26,16 @@
 										<div id="alert" class="form-group"></div>
 										<div class="form-group">
 											<input id="username" name="username" class="form-control"
-												placeholder="Username" type="text" />
+												placeholder="#{msg['msg.username']}" type="text" />
 										</div>
 										<div class="form-group">
 											<input id="password" class="form-control"
-												placeholder="Password" name="password" type="password" />
+												placeholder="#{msg['msg.password']}" name="password" type="password" />
 										</div>
 										<button type="button" onclick="login()"
-											class="btn btn-lg btn-success btn-block">Login</button>
+											class="btn btn-lg btn-success btn-block">
+												<h:outputText value="#{msg['msg.signin']}" />
+											</button>
 									</fieldset>
 								</form>
 							</div>

@@ -28,13 +28,8 @@
 				</ul> <!-- /.dropdown-user --></li>
 			<!-- /.dropdown -->
 		</ul>
-		<h:form>
-			<h:selectOneMenu styleClass="form-control" value="#{language.localeCode}" onchange="submit()"
-				valueChangeListener="#{language.countryLocaleCodeChanged}">
-				<f:selectItems value="#{language.countriesInMap}" />
-			</h:selectOneMenu>
-		</h:form>
 	</div>
 	<!-- /.navbar-top-links -->
+	<ui:include src="languages.xhtml" />
 
 </ui:composition>
